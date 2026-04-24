@@ -1,0 +1,249 @@
+/* ============================================================
+   數位經案 — Global Stylesheet
+   水墨 (Shui Mo) Design System
+   ============================================================ */
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #fafaf3; }
+::-webkit-scrollbar-thumb { background: #e3e2e2; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #c4c7c7; }
+
+/* ---------- Material Symbols ---------- */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Filled icon variant */
+.icon-fill {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* ---------- Typography ---------- */
+body {
+  font-family: 'Newsreader', serif;
+  min-height: max(884px, 100dvh);
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif-tc {
+  font-family: 'Noto Serif TC', serif;
+}
+
+/* ---------- Ink Wash Backgrounds ---------- */
+.ink-wash-bg {
+  background-image:
+    radial-gradient(circle at 80% 20%, rgba(94, 94, 94, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(23, 24, 24, 0.02) 0%, transparent 50%);
+}
+
+.ink-bleed-bg {
+  background: radial-gradient(circle at 80% 20%, rgba(227, 226, 226, 0.4) 0%, rgba(250, 250, 243, 0) 60%);
+}
+
+.ink-bleed {
+  background: radial-gradient(circle at center, rgba(27, 28, 24, 0.05) 0%, transparent 70%);
+}
+
+/* Xuan paper texture */
+.xuan-paper {
+  background-color: #fafaf3;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ---------- Form Inputs (Shui Mo Style) ---------- */
+.shui-mo-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #c4c7c7;
+  border-radius: 0;
+  padding: 12px 0;
+  transition: border-color 0.3s ease;
+  width: 100%;
+}
+
+.shui-mo-input:focus {
+  outline: none;
+  border-bottom-color: #171818;
+  box-shadow: none;
+}
+
+select.shui-mo-input {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 16px;
+  padding-right: 24px;
+  cursor: pointer;
+}
+
+/* Focus container highlight */
+.ink-bleed-focus:focus-within {
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05);
+  background-color: #f5f4ed;
+  transition: all 0.5s ease-in-out;
+}
+
+/* ---------- Editor Toolbar ---------- */
+.editor-toolbar-btn {
+  padding: 8px;
+  color: #444748;
+  transition: all 0.2s ease;
+  border-radius: 0.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-toolbar-btn:hover {
+  color: #171818;
+  background-color: #efeee7;
+}
+
+/* ---------- Search overlay ---------- */
+#search-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(250, 250, 243, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 120px;
+}
+
+#search-overlay.active {
+  display: flex;
+}
+
+#search-overlay input {
+  width: 100%;
+  max-width: 640px;
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #747878;
+  padding: 16px 0;
+  outline: none;
+  font-family: 'Noto Serif TC', serif;
+  color: #171818;
+}
+
+#search-results {
+  width: 100%;
+  max-width: 640px;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-result-item {
+  padding: 16px;
+  border-bottom: 1px solid #e3e3dc;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-result-item:hover {
+  background: #efeee7;
+}
+
+/* ---------- Tag input ---------- */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: #e9e8e2;
+  border: 1px solid rgba(196, 199, 199, 0.5);
+  font-size: 12px;
+  font-family: 'Newsreader', serif;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tag-chip:hover { background: #e3e3dc; }
+
+.tag-chip .remove-tag {
+  font-size: 14px;
+  color: #747878;
+  transition: color 0.2s;
+}
+
+.tag-chip .remove-tag:hover { color: #ba1a1a; }
+
+/* ---------- Toast notification ---------- */
+#toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #171818;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-family: 'Newsreader', serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  z-index: 200;
+  white-space: nowrap;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Screen-reader only ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------- Disabled select ---------- */
+select.shui-mo-input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Image drop-zone drag-over state ---------- */
+#media-dropzone.drag-over {
+  border-color: #390002;
+  background-color: #fff5f5;
+}
+
+/* ---------- Dark mode overrides ---------- */
+.dark ::-webkit-scrollbar-track { background: #1c1c1c; }
+.dark ::-webkit-scrollbar-thumb { background: #3a3a3a; }
+.dark .shui-mo-input { border-bottom-color: #3a3a3a; color: #f2f1ea; }
+.dark .shui-mo-input:focus { border-bottom-color: #c8c6c5; }
+.dark .editor-toolbar-btn { color: #c4c7c7; }
+.dark .editor-toolbar-btn:hover { color: #f2f1ea; background-color: #2c2c2c; }

@@ -1,0 +1,70 @@
+{
+  "categories": [
+    { "id": "tcm",   "label": "中醫學", "icon": "local_hospital", "desc": "經方研讀、醫案記錄與藥石之理。陰陽調和，探尋生命之本源。", "badge": "核心", "count": 218 },
+    { "id": "psych", "label": "心理學", "icon": "psychology",      "desc": "認知與行為模式探究",                                       "badge": "",     "count": 124 },
+    { "id": "econ",  "label": "經濟學", "icon": "monitoring",      "desc": "宏觀與微觀經濟理論",                                       "badge": "",     "count": 86  },
+    { "id": "notes", "label": "個人隨筆","icon": "history_edu",    "desc": "日常感悟與思想火花",                                       "badge": "",     "count": 342 }
+  ],
+  "records": [
+    {
+      "id": "r001",
+      "category": "tcm",
+      "subcategory": "case",
+      "title": "桂枝湯證之辨析",
+      "date": "癸卯年 秋",
+      "dateISO": "2023-10-01",
+      "tags": ["經典文獻", "考據", "傷寒論"],
+      "excerpt": "太陽中風，陽浮而陰弱。陽浮者，熱自發；陰弱者，汗自出。嗇嗇惡寒，淅淅惡風，翕翕發熱，鼻鳴乾嘔者，桂枝湯主之。此段闡述了表虛不固之象...",
+      "content": "太陽中風，陽浮而陰弱。陽浮者，熱自發；陰弱者，汗自出。嗇嗇惡寒，淅淅惡風，翕翕發熱，鼻鳴乾嘔者，桂枝湯主之。\n\n桂枝湯由桂枝、芍藥、甘草、生薑、大棗五味藥組成，為仲景群方之冠。其功效在於解肌發表、調和營衛。",
+      "bookmarked": false
+    },
+    {
+      "id": "r002",
+      "category": "psych",
+      "subcategory": "cognitive",
+      "title": "認知失調理論概述",
+      "date": "甲辰年 春",
+      "dateISO": "2024-03-15",
+      "tags": ["認知心理學", "費斯廷格"],
+      "excerpt": "認知失調（Cognitive Dissonance）由費斯廷格於1957年提出，指個體同時持有兩個或多個相互矛盾的認知時所產生的心理不適感...",
+      "content": "認知失調（Cognitive Dissonance）由費斯廷格於1957年提出，指個體同時持有兩個或多個相互矛盾的認知時所產生的心理不適感。\n\n個體為減少此不適，通常採取三種策略：改變其中一個認知、增加新的一致性認知、降低衝突認知的重要性。",
+      "bookmarked": true
+    },
+    {
+      "id": "r003",
+      "category": "tcm",
+      "subcategory": "herb",
+      "title": "附子之炮製與應用",
+      "date": "甲辰年 夏",
+      "dateISO": "2024-06-20",
+      "tags": ["本草", "炮製", "溫陽"],
+      "excerpt": "附子為毛茛科植物烏頭的子根，性大熱，味辛甘，有毒。炮製得當則毒性大減，回陽救逆之功卓著...",
+      "content": "附子為毛茛科植物烏頭的子根，性大熱，味辛甘，有毒。炮製得當則毒性大減，回陽救逆之功卓著。\n\n臨床常用於亡陽虛脫、肢冷脈微、心腹冷痛、虛寒吐瀉等症。",
+      "bookmarked": false
+    },
+    {
+      "id": "r004",
+      "category": "econ",
+      "subcategory": "macro",
+      "title": "凱因斯乘數效應",
+      "date": "甲辰年 秋",
+      "dateISO": "2024-09-05",
+      "tags": ["總體經濟", "財政政策"],
+      "excerpt": "乘數效應（Multiplier Effect）描述初始支出變動如何透過連鎖消費行為，最終導致總產出產生倍數變化...",
+      "content": "乘數效應（Multiplier Effect）描述初始支出變動如何透過連鎖消費行為，最終導致總產出產生倍數變化。\n\n乘數 k = 1 / (1 - MPC)，其中 MPC 為邊際消費傾向。",
+      "bookmarked": false
+    },
+    {
+      "id": "r005",
+      "category": "notes",
+      "subcategory": "reflection",
+      "title": "讀《道德經》有感",
+      "date": "甲辰年 冬",
+      "dateISO": "2024-12-01",
+      "tags": ["道家", "哲學", "隨筆"],
+      "excerpt": "上善若水，水善利萬物而不爭。老子以水喻道，道之柔弱勝剛強，此乃自然之至理...",
+      "content": "上善若水，水善利萬物而不爭。老子以水喻道，道之柔弱勝剛強，此乃自然之至理。\n\n讀至「為學日益，為道日損」，深感現代人知識積累之焦慮，或許正需此損之智慧。",
+      "bookmarked": false
+    }
+  ]
+}

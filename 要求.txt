@@ -1,0 +1,1531 @@
+<!-- 首頁 (繁體水墨 V6) -->
+<!DOCTYPE html>
+
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>數位經案 - Home</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Noto Serif (Headlines) & Newsreader (Body) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=Noto+Serif+TC:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar to match aesthetic */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fafaf3; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e3e2e2; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c4c7c7; 
+        }
+    </style>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#92030f",
+                        "secondary-fixed": "#e3e2e2",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-primary-fixed": "#1b1c1c",
+                        "surface-variant": "#e3e3dc",
+                        "outline": "#747878",
+                        "on-tertiary-fixed": "#410003",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#171818",
+                        "surface-container": "#efeee7",
+                        "secondary-container": "#e3e2e2",
+                        "surface-container-highest": "#e3e3dc",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e9e8e2",
+                        "on-background": "#1b1c18",
+                        "outline-variant": "#c4c7c7",
+                        "surface-dim": "#dbdad4",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "inverse-surface": "#30312c",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "inverse-on-surface": "#f2f1ea",
+                        "background": "#fafaf3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fafaf3",
+                        "surface": "#fafaf3",
+                        "on-tertiary-container": "#ff5a52",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#e4e2e1",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "on-surface": "#1b1c18",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#646464",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-primary-container": "#949393",
+                        "surface-tint": "#5f5e5e",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary-container": "#600006",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "primary-container": "#2c2c2c",
+                        "surface-container-low": "#f5f4ed",
+                        "tertiary": "#390002",
+                        "on-surface-variant": "#444748",
+                        "secondary": "#5e5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "48px",
+                        "unit": "8px",
+                        "gutter": "32px",
+                        "section-gap": "80px",
+                        "container-max": "1140px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Newsreader", "serif"],
+                        "headline-md": ["'Noto Serif TC'", "serif"],
+                        "headline-lg": ["'Noto Serif TC'", "serif"],
+                        "label-sm": ["Newsreader", "serif"],
+                        "headline-display": ["'Noto Serif TC'", "serif"],
+                        "body-md": ["Newsreader", "serif"],
+                        "body-lg": ["Newsreader", "serif"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "headline-display": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-tertiary-fixed selection:text-tertiary relative min-h-screen">
+<!-- Decorative Ink Wash Hero Background -->
+<div class="absolute inset-x-0 top-0 h-[600px] z-0 opacity-40 pointer-events-none" data-alt="abstract soft mist and subtle monochromatic ink wash painting texture blending smooth greys on textured rice paper" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAuAOy9_PWyTEpXahXSzJwhOyC8I9gfBD478n3ZXM4UnA6-NCQpXPGJj89MGIUIZBPqhXDrL41rBkn2nFXqF678ns42u8megKIgWNR8F_0bYGz2L0-9_MPRTgJXHJPq3wAqQv1BFOb4qcO8pqVfJFvq7r-e6rOqnIpBZZfrmJp7aLbQsxPbouPJXDoyVhrwnXSIECx7cDMwYHmxCOjYQTbSmUEkU4UIyE8GC9C6y3VLgzWLZqss5Y6SQbnIyoj8KS2PknP45gD4Pg'); background-size: cover; background-position: top center; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);">
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-stone-50 dark:bg-zinc-900 flex justify-between items-center px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 shadow-none backdrop-blur-sm bg-opacity-90">
+<!-- Leading Icon -->
+<button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1 md:hidden">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Brand / Headline -->
+<div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg">
+            墨齋數據
+        </div>
+<!-- Desktop Navigation Shell (Translating BottomNav items to TopAppBar for md+) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-red-700 dark:text-red-500 font-bold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="#">
+                首頁
+            </a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="#">
+                館藏
+            </a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="#">
+                卦象
+            </a>
+<a class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="#">
+                新增
+            </a>
+</nav>
+<!-- Trailing Icon -->
+<button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1">
+<span class="material-symbols-outlined">search</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 max-w-container-max mx-auto px-gutter pt-[140px] pb-[120px] md:pb-margin-page space-y-section-gap">
+<!-- Hero Search Section -->
+<section class="flex flex-col items-center text-center space-y-8 mt-8">
+<h1 class="font-headline-display text-headline-display text-primary tracking-wide relative">
+                數位經案
+                <!-- Subtle Cinnabar Seal Accent -->
+<span class="absolute -right-8 -top-4 text-tertiary opacity-80 material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto tracking-wide">
+                心存玄機，筆落煙雲。請輸入關鍵詞以索驥。
+            </p>
+<div class="relative w-full max-w-2xl mt-4 group">
+<input class="w-full bg-transparent border-0 border-b border-outline/50 focus:border-primary focus:ring-0 text-center font-body-lg text-body-lg py-4 transition-colors placeholder:text-outline-variant outline-none" placeholder="搜尋卷宗、筆記或卦象..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors">search</span>
+<!-- Ink expansion focus effect line -->
+<div class="absolute bottom-0 left-1/2 h-[1px] w-0 bg-primary group-focus-within:w-full group-focus-within:left-0 transition-all duration-700 ease-in-out"></div>
+</div>
+</section>
+<!-- Category Tiles (Asymmetric Bento Grid) -->
+<section>
+<div class="mb-gutter flex items-center gap-4">
+<div class="w-1 h-6 bg-tertiary/80 rounded-sm"></div>
+<h2 class="font-headline-md text-headline-md text-primary">學海無涯</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-unit auto-rows-[180px]">
+<!-- Item 1: 中醫 (Large Focal Point) -->
+<a class="md:col-span-2 md:row-span-2 relative group overflow-hidden border border-outline/10 bg-surface-container rounded-lg p-8 flex flex-col justify-between hover:border-outline/30 transition-colors duration-500" href="#">
+<!-- Tonal layer ink bleed -->
+<div class="absolute -bottom-32 -right-32 w-96 h-96 bg-surface-tint/5 rounded-full blur-3xl group-hover:bg-tertiary/5 transition-colors duration-1000"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="material-symbols-outlined text-5xl text-tertiary opacity-90" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest border border-outline/20 px-3 py-1 rounded-full">核心</span>
+</div>
+<div class="relative z-10">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2">中醫</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">經方研讀、醫案記錄與藥石之理。陰陽調和，探尋生命之本源。</p>
+</div>
+</a>
+<!-- Item 2: 心理 -->
+<a class="md:col-span-1 md:row-span-1 relative group overflow-hidden border border-outline/10 bg-surface-container-low rounded-lg p-6 flex flex-col justify-end hover:bg-surface-container-high transition-colors duration-500" href="#">
+<span class="material-symbols-outlined text-3xl text-secondary mb-auto opacity-70 group-hover:opacity-100 transition-opacity">psychology</span>
+<h3 class="font-headline-md text-headline-md text-primary relative z-10">心理</h3>
+</a>
+<!-- Item 3: 經濟 -->
+<a class="md:col-span-1 md:row-span-1 relative group overflow-hidden border border-outline/10 bg-surface-container-low rounded-lg p-6 flex flex-col justify-end hover:bg-surface-container-high transition-colors duration-500" href="#">
+<span class="material-symbols-outlined text-3xl text-secondary mb-auto opacity-70 group-hover:opacity-100 transition-opacity">payments</span>
+<h3 class="font-headline-md text-headline-md text-primary relative z-10">經濟</h3>
+</a>
+<!-- Item 4: 個人筆記 (Wide) -->
+<a class="md:col-span-2 md:row-span-1 relative group overflow-hidden border border-outline/10 bg-surface-container-highest rounded-lg p-6 flex flex-row items-center justify-between hover:border-outline/30 transition-colors duration-500" href="#">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="w-12 h-12 rounded-full border border-outline/20 flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-secondary">edit_document</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">個人筆記</h3>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+<!-- Item 5: 自定義專題 -->
+<a class="md:col-span-4 md:row-span-1 mt-4 relative group border-b border-outline/20 py-4 flex flex-row items-center justify-between hover:border-primary transition-colors duration-500" href="#">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary">add</span>
+<h3 class="font-headline-md text-headline-md text-primary">自定義專題</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">Create New</span>
+</a>
+</div>
+</section>
+<!-- Recent Records (Scroll/Ink-wash styled list) -->
+<section>
+<div class="flex justify-between items-baseline mb-gutter">
+<div class="flex items-center gap-4">
+<div class="w-1 h-6 bg-tertiary/80 rounded-sm"></div>
+<h2 class="font-headline-md text-headline-md text-primary">近期卷宗</h2>
+</div>
+<a class="font-label-lg text-label-lg text-secondary hover:text-primary transition-colors flex items-center gap-1 group" href="#">
+                    查看全部 <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">east</span>
+</a>
+</div>
+<div class="space-y-8 pl-2">
+<!-- Entry 1 -->
+<article class="group relative pl-8 py-2 border-l-[1px] border-outline/20 hover:border-primary/40 transition-colors duration-500">
+<!-- Irregular ink dot bullet -->
+<div class="absolute left-[-4px] top-4 w-[7px] h-[9px] rounded-full bg-secondary/80 group-hover:bg-tertiary transition-colors rotate-12"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+<div class="flex-1 space-y-3">
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest">癸卯年 秋</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary tracking-wider">傷寒論研讀</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary group-hover:text-tertiary-container transition-colors">桂枝湯證之辨析</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl leading-relaxed">
+                                太陽中風，陽浮而陰弱。陽浮者，熱自發；陰弱者，汗自出。嗇嗇惡寒，淅淅惡風，翕翕發熱，鼻鳴乾嘔者，桂枝湯主之。此段闡述了表虛不固之象...
+                            </p>
+</div>
+<!-- Seal Action -->
+<button aria-label="Save Record" class="flex-shrink-0 mt-2 md:mt-0 text-outline hover:text-tertiary transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Entry 2 -->
+<article class="group relative pl-8 py-2 border-l-[1px] border-outline/20 hover:border-primary/40 transition-colors duration-500">
+<!-- Irregular ink dot bullet -->
+<div class="absolute left-[-3px] top-4 w-[6px] h-[6px] rounded-full bg-secondary/60 group-hover:bg-tertiary transition-colors -rotate-45"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+<div class="flex-1 space-y-3">
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest">甲辰年 春</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary tracking-wider">市場觀察</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary group-hover:text-tertiary-container transition-colors">宏觀流動性與資產定價</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl leading-relaxed">
+                                當前貨幣政策邊際收緊，市場風險偏好下降。從流動性溢價角度分析，需警惕尾部風險，注重防守反擊。靜水流深，待時而動...
+                            </p>
+</div>
+<button aria-label="Save Record" class="flex-shrink-0 mt-2 md:mt-0 text-outline hover:text-tertiary transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+</div>
+</article>
+<!-- Entry 3 -->
+<article class="group relative pl-8 py-2 border-l-[1px] border-outline/20 hover:border-primary/40 transition-colors duration-500">
+<!-- Irregular ink dot bullet -->
+<div class="absolute left-[-5px] top-4 w-[9px] h-[7px] rounded-full bg-secondary/70 group-hover:bg-tertiary transition-colors rotate-90"></div>
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+<div class="flex-1 space-y-3">
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest">甲辰年 夏</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary tracking-wider">心理學札記</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary group-hover:text-tertiary-container transition-colors">集體潛意識與夢境解析</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl leading-relaxed">
+                                水影交錯，心魔幻化。探討原型在現代生活中的投射與影響。自我與陰影的對話，往往在最深沉的夢境中以象徵的形式顯現...
+                            </p>
+</div>
+<button aria-label="Save Record" class="flex-shrink-0 mt-2 md:mt-0 text-outline hover:text-tertiary transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-stone-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 border-opacity-10 backdrop-blur-md bg-opacity-95">
+<!-- Active: 首頁 -->
+<a class="flex flex-col items-center justify-center text-red-700 dark:text-red-500 scale-110 relative group" href="#">
+<span class="absolute -top-2 w-8 h-8 bg-red-700/10 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity"></span>
+<span class="material-symbols-outlined mb-1 relative z-10" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-serif text-xs font-medium relative z-10">首頁</span>
+</a>
+<!-- Inactive: 館藏 -->
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">library_books</span>
+<span class="font-serif text-xs font-medium">館藏</span>
+</a>
+<!-- Inactive: 卦象 -->
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+<span class="font-serif text-xs font-medium">卦象</span>
+</a>
+<!-- Inactive: 新增 -->
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">add_circle</span>
+<span class="font-serif text-xs font-medium">新增</span>
+</a>
+</nav>
+</body></html>
+
+<!-- 館藏管理 (繁體層級 V6) -->
+<!DOCTYPE html>
+
+<html class="light" lang="zh-Hant"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>墨齋數據 - 館藏</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Noto+Serif+TC:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#92030f",
+                        "secondary-fixed": "#e3e2e2",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-primary-fixed": "#1b1c1c",
+                        "surface-variant": "#e3e3dc",
+                        "outline": "#747878",
+                        "on-tertiary-fixed": "#410003",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#171818",
+                        "surface-container": "#efeee7",
+                        "secondary-container": "#e3e2e2",
+                        "surface-container-highest": "#e3e3dc",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e9e8e2",
+                        "on-background": "#1b1c18",
+                        "outline-variant": "#c4c7c7",
+                        "surface-dim": "#dbdad4",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "inverse-surface": "#30312c",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "inverse-on-surface": "#f2f1ea",
+                        "background": "#fafaf3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fafaf3",
+                        "surface": "#fafaf3",
+                        "on-tertiary-container": "#ff5a52",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#e4e2e1",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "on-surface": "#1b1c18",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#646464",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-primary-container": "#949393",
+                        "surface-tint": "#5f5e5e",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary-container": "#600006",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "primary-container": "#2c2c2c",
+                        "surface-container-low": "#f5f4ed",
+                        "tertiary": "#390002",
+                        "on-surface-variant": "#444748",
+                        "secondary": "#5e5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "48px",
+                        "unit": "8px",
+                        "gutter": "32px",
+                        "section-gap": "80px",
+                        "container-max": "1140px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Newsreader", "serif"],
+                        "headline-md": ["Noto Serif TC", "serif"],
+                        "headline-lg": ["Noto Serif TC", "serif"],
+                        "label-sm": ["Newsreader", "serif"],
+                        "headline-display": ["Noto Serif TC", "serif"],
+                        "body-md": ["Newsreader", "serif"],
+                        "body-lg": ["Newsreader", "serif"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "headline-display": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        .ink-bleed-bg {
+            background: radial-gradient(circle at 80% 20%, rgba(227, 226, 226, 0.4) 0%, rgba(250, 250, 243, 0) 60%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col relative selection:bg-tertiary-container selection:text-on-tertiary">
+<header class="fixed top-0 w-full z-50 bg-stone-50 dark:bg-zinc-900 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-center w-full px-6 py-4 container mx-auto max-w-container-max">
+<button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded-full p-2 flex items-center justify-center group active:scale-95">
+<span class="material-symbols-outlined group-hover:text-red-700 transition-colors duration-300">menu</span>
+</button>
+<h1 class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg">墨齋數據</h1>
+<button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded-full p-2 flex items-center justify-center group active:scale-95">
+<span class="material-symbols-outlined group-hover:text-red-700 transition-colors duration-300">search</span>
+</button>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-32 md:pb-24 px-6 md:px-margin-page container mx-auto max-w-container-max">
+<div class="mb-section-gap mt-12 flex flex-col items-start relative z-10">
+<span class="font-label-lg text-label-lg text-tertiary-container mb-4 flex items-center gap-2">
+<span class="w-1 h-4 bg-tertiary-container inline-block"></span>
+                藏經閣
+            </span>
+<h2 class="font-headline-display text-headline-display text-primary tracking-tight">
+                館藏目錄
+            </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-6 max-w-2xl leading-relaxed">
+                靜觀萬物皆自得，四時佳興與人同。於此沉澱心智，梳理繁雜知識脈絡，構建個人智慧之庫。
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start">
+<div class="md:col-span-8 group">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 md:p-12 relative overflow-hidden transition-all duration-500 hover:border-outline/40">
+<div class="absolute inset-0 ink-bleed-bg opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+<div class="relative z-10 flex items-start justify-between mb-8">
+<div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-tertiary-container text-2xl icon-fill">potted_plant</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2">中醫資料</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">傳統醫學理論與實踐記錄</p>
+</div>
+<span class="font-label-sm text-label-sm text-outline px-3 py-1 border border-outline-variant rounded-full">核心庫</span>
+</div>
+<div class="space-y-6 mt-12 pl-4 border-l border-outline-variant/40">
+<div class="relative group/item cursor-pointer">
+<div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-surface-container border-2 border-tertiary-container group-hover/item:bg-tertiary-container transition-colors duration-300"></div>
+<div class="pl-6 py-2">
+<h4 class="font-headline-md text-headline-md text-primary mb-1 group-hover/item:text-tertiary-container transition-colors duration-300">經典醫籍</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1">黃帝內經、傷寒雜病論、神農本草經等先秦至明清古籍。</p>
+</div>
+</div>
+<div class="relative group/item cursor-pointer">
+<div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-surface-container border-2 border-outline group-hover/item:border-tertiary-container group-hover/item:bg-tertiary-container transition-colors duration-300"></div>
+<div class="pl-6 py-2">
+<h4 class="font-headline-md text-headline-md text-primary mb-1 group-hover/item:text-tertiary-container transition-colors duration-300">名醫醫案</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1">歷代醫家臨證經驗與病案記錄分析。</p>
+</div>
+</div>
+<div class="relative group/item cursor-pointer">
+<div class="absolute -left-[21px] top-3 w-2.5 h-2.5 rounded-full bg-surface-container border-2 border-outline group-hover/item:border-tertiary-container group-hover/item:bg-tertiary-container transition-colors duration-300"></div>
+<div class="pl-6 py-2">
+<h4 class="font-headline-md text-headline-md text-primary mb-1 group-hover/item:text-tertiary-container transition-colors duration-300">方劑學</h4>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-1">經方、時方之組成、功效與臨床應用。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 relative overflow-hidden group cursor-pointer hover:bg-surface-container-low transition-colors duration-500">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-outline text-xl">psychology</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-tertiary-container transition-colors duration-300">心理學</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">認知與行為模式探究</p>
+<div class="mt-6 flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">124 篇目</span>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 relative overflow-hidden group cursor-pointer hover:bg-surface-container-low transition-colors duration-500">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-outline text-xl">monitoring</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-tertiary-container transition-colors duration-300">經濟學</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">宏觀與微觀經濟理論</p>
+<div class="mt-6 flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">86 篇目</span>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-8 relative overflow-hidden group cursor-pointer hover:bg-surface-container-low transition-colors duration-500">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-outline text-xl">history_edu</span>
+<h3 class="font-headline-md text-headline-md text-primary group-hover:text-tertiary-container transition-colors duration-300">個人隨筆</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">日常感悟與思想火花</p>
+<div class="mt-6 flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline">342 篇目</span>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-stone-50 dark:bg-zinc-900 shadow-[0_-4px_24px_rgba(0,0,0,0.02)]">
+<button class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 w-16">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-serif text-xs font-medium">首頁</span>
+</button>
+<button class="flex flex-col items-center justify-center text-red-700 dark:text-red-500 scale-110 transition-all duration-300 w-16 group">
+<div class="relative">
+<span class="material-symbols-outlined mb-1 icon-fill relative z-10">library_books</span>
+<div class="absolute inset-0 bg-red-700/10 rounded-full scale-150 blur-sm opacity-0 group-active:opacity-100 transition-opacity duration-300"></div>
+</div>
+<span class="font-serif text-xs font-medium font-bold">館藏</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 w-16">
+<span class="material-symbols-outlined mb-1">auto_awesome</span>
+<span class="font-serif text-xs font-medium">卦象</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 w-16">
+<span class="material-symbols-outlined mb-1">add_circle</span>
+<span class="font-serif text-xs font-medium">新增</span>
+</button>
+</nav>
+</body></html>
+
+<!-- 資料錄入 (繁體精緻 V6) -->
+<!DOCTYPE html>
+
+<html lang="zh-TW"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>新增錄入 - 墨齋數據</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Serif+TC:wght@200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#92030f",
+                        "secondary-fixed": "#e3e2e2",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-primary-fixed": "#1b1c1c",
+                        "surface-variant": "#e3e3dc",
+                        "outline": "#747878",
+                        "on-tertiary-fixed": "#410003",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#171818",
+                        "surface-container": "#efeee7",
+                        "secondary-container": "#e3e2e2",
+                        "surface-container-highest": "#e3e3dc",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e9e8e2",
+                        "on-background": "#1b1c18",
+                        "outline-variant": "#c4c7c7",
+                        "surface-dim": "#dbdad4",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "inverse-surface": "#30312c",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "inverse-on-surface": "#f2f1ea",
+                        "background": "#fafaf3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fafaf3",
+                        "surface": "#fafaf3",
+                        "on-tertiary-container": "#ff5a52",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#e4e2e1",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "on-surface": "#1b1c18",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#646464",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-primary-container": "#949393",
+                        "surface-tint": "#5f5e5e",
+                        "on-primary-fixed-variant": "#474747",
+                        "tertiary-container": "#600006",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "primary-container": "#2c2c2c",
+                        "surface-container-low": "#f5f4ed",
+                        "tertiary": "#390002",
+                        "on-surface-variant": "#444748",
+                        "secondary": "#5e5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-page": "48px",
+                        "unit": "8px",
+                        "gutter": "32px",
+                        "section-gap": "80px",
+                        "container-max": "1140px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Newsreader", "Noto Serif TC", "serif"],
+                        "headline-md": ["Noto Serif TC", "serif"],
+                        "headline-lg": ["Noto Serif TC", "serif"],
+                        "label-sm": ["Newsreader", "Noto Serif TC", "serif"],
+                        "headline-display": ["Noto Serif TC", "serif"],
+                        "body-md": ["Newsreader", "Noto Serif TC", "serif"],
+                        "body-lg": ["Newsreader", "Noto Serif TC", "serif"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "headline-display": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom styles to enforce Shui-mo aesthetic elements not covered by pure utilities */
+        .ink-bleed-focus:focus-within {
+            box-shadow: 0 0 20px 0 rgba(0,0,0,0.05);
+            background-color: var(--tw-colors-surface-container-low);
+            transition: all 0.5s ease-in-out;
+        }
+        .shui-mo-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid var(--tw-colors-outline-variant);
+            border-radius: 0;
+            padding: 12px 0;
+            transition: border-color 0.3s ease;
+        }
+        .shui-mo-input:focus {
+            outline: none;
+            border-bottom-color: var(--tw-colors-primary);
+            box-shadow: none;
+        }
+        select.shui-mo-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0 center;
+            background-size: 16px;
+            padding-right: 24px;
+        }
+        .editor-toolbar-btn {
+            padding: 8px;
+            color: var(--tw-colors-on-surface-variant);
+            transition: all 0.2s ease;
+            border-radius: var(--tw-border-radius-DEFAULT);
+        }
+        .editor-toolbar-btn:hover {
+            color: var(--tw-colors-primary);
+            background-color: var(--tw-colors-surface-container);
+        }
+        /* Custom scrollbar for minimalist feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--tw-colors-outline-variant);
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col selection:bg-surface-variant selection:text-primary">
+<!-- TopAppBar -->
+<header class="bg-stone-50 dark:bg-zinc-900 fixed top-0 w-full z-40 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 flex justify-between items-center px-6 py-4 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)]">
+<button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg font-headline-md text-headline-md">
+            墨齋數據
+        </div>
+<button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[100px] pb-[120px] px-6 md:px-margin-page max-w-container-max mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-section-gap max-w-3xl">
+<h1 class="font-headline-display text-headline-display text-primary mb-4">撰寫錄入</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">請於此處編纂新文獻，字斟句酌，心靜如水。</p>
+</div>
+<!-- Data Entry Form -->
+<form class="space-y-gutter max-w-4xl">
+<!-- Category Selection (Grid Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="flex flex-col gap-2 relative group ink-bleed-focus p-4 -ml-4 rounded-xl">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">根目錄 Root Category</label>
+<select class="shui-mo-input font-body-md text-body-md text-primary w-full cursor-pointer">
+<option disabled="" selected="" value="">請選擇領域...</option>
+<option value="tcm">中醫學</option>
+<option value="psych">心理學</option>
+<option value="econ">經濟學</option>
+<option value="phil">哲學</option>
+<option value="lit">文學</option>
+</select>
+</div>
+<div class="flex flex-col gap-2 relative group ink-bleed-focus p-4 -ml-4 md:ml-0 rounded-xl">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">子目錄 Sub Category</label>
+<select class="shui-mo-input font-body-md text-body-md text-primary w-full cursor-pointer">
+<option disabled="" selected="" value="">請先選擇根目錄...</option>
+<option value="herb">本草考證</option>
+<option value="acu">針灸經絡</option>
+<option value="case">醫案解讀</option>
+</select>
+</div>
+</div>
+<!-- Title Input -->
+<div class="flex flex-col gap-2 pt-4 ink-bleed-focus p-4 -ml-4 rounded-xl">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">標題 Title</label>
+<input class="shui-mo-input font-headline-md text-headline-md text-primary placeholder:text-outline-variant w-full" placeholder="輸入文獻標題..." type="text"/>
+</div>
+<!-- Rich Text Editor Area -->
+<div class="flex flex-col gap-0 border border-outline-variant/30 rounded-lg overflow-hidden bg-surface-container-lowest focus-within:border-outline transition-colors duration-500 group relative">
+<!-- Subtle background ink bleed effect -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-colors-surface-container-low),_transparent_40%)] opacity-0 group-focus-within:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+<!-- Toolbar -->
+<div class="flex flex-wrap items-center gap-1 p-2 border-b border-outline-variant/20 bg-surface-container-lowest relative z-10">
+<button aria-label="Bold" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_bold">format_bold</span>
+</button>
+<button aria-label="Italic" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_italic">format_italic</span>
+</button>
+<button aria-label="Underline" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_underlined">format_underlined</span>
+</button>
+<div class="w-px h-5 bg-outline-variant/30 mx-2"></div>
+<button aria-label="Heading" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_h1">format_h1</span>
+</button>
+<button aria-label="Quote" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_quote">format_quote</span>
+</button>
+<div class="w-px h-5 bg-outline-variant/30 mx-2"></div>
+<button aria-label="Bulleted List" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_list_bulleted">format_list_bulleted</span>
+</button>
+<button aria-label="Numbered List" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_list_numbered">format_list_numbered</span>
+</button>
+<div class="w-px h-5 bg-outline-variant/30 mx-2"></div>
+<button aria-label="Link" class="editor-toolbar-btn flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="link">link</span>
+</button>
+</div>
+<!-- Editor Canvas -->
+<textarea class="w-full min-h-[360px] bg-transparent resize-y p-6 font-body-md text-body-md text-primary leading-relaxed focus:outline-none placeholder:text-outline-variant relative z-10" placeholder="正文於此，筆走龍蛇..."></textarea>
+</div>
+<!-- Image Upload Area (Ink-wash style) -->
+<div class="flex flex-col gap-4 pt-4">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest pl-4">配圖 Media</label>
+<div class="w-full aspect-video md:aspect-[21/9] border border-outline-variant border-dashed flex flex-col items-center justify-center gap-4 bg-surface-container-low hover:bg-surface-container transition-all duration-500 cursor-pointer relative overflow-hidden group">
+<!-- Decorative ink wash background -->
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-colors-surface-variant),_transparent_70%)] opacity-30 group-hover:opacity-60 transition-opacity duration-700"></div>
+<span class="material-symbols-outlined text-4xl text-outline group-hover:text-primary transition-colors duration-300 relative z-10" data-icon="image">image</span>
+<div class="text-center relative z-10">
+<p class="font-label-lg text-label-lg text-primary mb-1">點擊或拖曳圖片至此</p>
+<p class="font-body-md text-body-md text-secondary text-sm">支援 JPG, PNG, WEBP (最大 5MB)</p>
+</div>
+</div>
+</div>
+<!-- Tag Management -->
+<div class="flex flex-col gap-4 pt-4 ink-bleed-focus p-4 -ml-4 rounded-xl">
+<label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">標籤 Tags</label>
+<div class="flex flex-wrap gap-3 items-center">
+<span class="px-4 py-1.5 bg-surface-container-high border border-outline-variant/50 text-on-surface font-label-sm text-label-sm flex items-center gap-2 hover:bg-surface-variant transition-colors cursor-pointer group">
+                        經典文獻
+                        <span class="material-symbols-outlined text-[14px] text-outline group-hover:text-error transition-colors" data-icon="close">close</span>
+</span>
+<span class="px-4 py-1.5 bg-surface-container-high border border-outline-variant/50 text-on-surface font-label-sm text-label-sm flex items-center gap-2 hover:bg-surface-variant transition-colors cursor-pointer group">
+                        考據
+                        <span class="material-symbols-outlined text-[14px] text-outline group-hover:text-error transition-colors" data-icon="close">close</span>
+</span>
+<button class="px-4 py-1.5 border border-dashed border-outline text-secondary font-label-sm text-label-sm flex items-center gap-2 hover:text-primary hover:border-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+                        新增標籤
+                    </button>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row justify-end items-center gap-4 pt-section-gap border-t border-outline-variant/20 mt-12">
+<button class="w-full sm:w-auto px-8 py-3 border border-outline text-on-surface font-label-lg text-label-lg hover:bg-surface-container hover:text-primary transition-all duration-300 flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="draft">draft</span>
+                    存為草稿
+                </button>
+<button class="w-full sm:w-auto px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] relative overflow-hidden group" type="submit">
+<span class="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_0%,_transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none scale-150"></span>
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-fixed-variant" data-icon="send" data-weight="fill">send</span>
+                    正式發佈
+                </button>
+</div>
+</form>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-stone-50 dark:bg-zinc-900 fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 border-t border-zinc-200 dark:border-zinc-800 border-opacity-10 md:hidden">
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 gap-1 w-16" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-serif text-xs font-medium">首頁</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 gap-1 w-16" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="font-serif text-xs font-medium">館藏</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 gap-1 w-16" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-serif text-xs font-medium">卦象</span>
+</a>
+<a class="flex flex-col items-center justify-center text-red-700 dark:text-red-500 scale-110 transition-all duration-300 gap-1 w-16" href="#">
+<span class="material-symbols-outlined text-red-700" data-icon="add_circle" data-weight="fill">add_circle</span>
+<span class="font-serif text-xs font-medium text-red-700 font-bold">新增</span>
+</a>
+</nav>
+</body></html>
+
+<!-- 六十四卦 (繁體併排 V6) -->
+<!DOCTYPE html>
+
+<html class="light" lang="zh-Hant"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>墨齋數據 - 六十四卦</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Serif+TC:wght@200..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#92030f",
+                    "secondary-fixed": "#e3e2e2",
+                    "tertiary-fixed": "#ffdad6",
+                    "on-primary-fixed": "#1b1c1c",
+                    "surface-variant": "#e3e3dc",
+                    "outline": "#747878",
+                    "on-tertiary-fixed": "#410003",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#171818",
+                    "surface-container": "#efeee7",
+                    "secondary-container": "#e3e2e2",
+                    "surface-container-highest": "#e3e3dc",
+                    "error": "#ba1a1a",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e9e8e2",
+                    "on-background": "#1b1c18",
+                    "outline-variant": "#c4c7c7",
+                    "surface-dim": "#dbdad4",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#c8c6c5",
+                    "inverse-surface": "#30312c",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "inverse-on-surface": "#f2f1ea",
+                    "background": "#fafaf3",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#fafaf3",
+                    "surface": "#fafaf3",
+                    "on-tertiary-container": "#ff5a52",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#e4e2e1",
+                    "tertiary-fixed-dim": "#ffb4ac",
+                    "on-surface": "#1b1c18",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#646464",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-primary-container": "#949393",
+                    "surface-tint": "#5f5e5e",
+                    "on-primary-fixed-variant": "#474747",
+                    "tertiary-container": "#600006",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "primary-container": "#2c2c2c",
+                    "surface-container-low": "#f5f4ed",
+                    "tertiary": "#390002",
+                    "on-surface-variant": "#444748",
+                    "secondary": "#5e5e5e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-page": "48px",
+                    "unit": "8px",
+                    "gutter": "32px",
+                    "section-gap": "80px",
+                    "container-max": "1140px"
+            },
+            "fontFamily": {
+                    "label-lg": ["Newsreader", "serif"],
+                    "headline-md": ["Noto Serif TC", "serif"],
+                    "headline-lg": ["Noto Serif TC", "serif"],
+                    "label-sm": ["Newsreader", "serif"],
+                    "headline-display": ["Noto Serif TC", "serif"],
+                    "body-md": ["Newsreader", "serif"],
+                    "body-lg": ["Newsreader", "serif"]
+            },
+            "fontSize": {
+                    "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                    "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                    "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                    "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                    "headline-display": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                    "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Newsreader', serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif-tc { font-family: 'Noto Serif TC', serif; }
+        /* Soft ink bleed background */
+        .ink-wash-bg {
+            background-image: radial-gradient(circle at 80% 20%, rgba(94, 94, 94, 0.03) 0%, transparent 40%),
+                              radial-gradient(circle at 20% 80%, rgba(23, 24, 24, 0.02) 0%, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col ink-wash-bg relative pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-stone-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 font-serif tracking-widest text-lg docked full-width top-0 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 flat no shadows tonal layering flex justify-between items-center w-full px-6 py-4 sticky z-40">
+<!-- Mobile Leading Icon -->
+<button aria-label="Menu" class="md:hidden hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 p-2 rounded-full text-zinc-500">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<!-- Brand Logo -->
+<div class="font-serif-tc font-bold text-zinc-900 dark:text-zinc-50 text-headline-md tracking-widest">
+            墨齋數據
+        </div>
+<!-- Desktop Navigation Cluster (Hidden on Mobile) -->
+<nav class="hidden md:flex items-center gap-8 font-label-lg">
+<a class="text-secondary hover:text-primary transition-colors duration-300" href="#">首頁</a>
+<a class="text-secondary hover:text-primary transition-colors duration-300" href="#">館藏</a>
+<a class="text-red-700 font-bold border-b-2 border-red-700 pb-1" href="#">卦象</a>
+<a class="text-secondary hover:text-primary transition-colors duration-300" href="#">新增</a>
+</nav>
+<!-- Trailing Icon -->
+<button aria-label="Search" class="hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow px-6 py-12 md:px-margin-page max-w-container-max mx-auto w-full">
+<!-- Page Header (Asymmetric Alignment) -->
+<header class="mb-section-gap md:pl-12 border-l-2 border-secondary/20">
+<h1 class="text-headline-display text-primary mb-6">六十四卦</h1>
+<p class="text-body-lg text-secondary max-w-2xl leading-relaxed">
+                周易八卦，生生不息。觀象知意，以明得失。<br/>
+                萬物之理皆在陰陽消長之間，此為六十四卦之總覽。
+            </p>
+</header>
+<!-- 2-Column Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Card 01: 乾 -->
+<article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl bg-surface hover:bg-surface-variant transition-colors duration-500 group cursor-pointer relative overflow-hidden">
+<!-- Decorative ink wash dot -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
+<!-- Hexagram Visual (CSS Built) -->
+<div class="flex-shrink-0 w-12 h-16 flex flex-col justify-between opacity-70 group-hover:opacity-100 transition-opacity mt-1">
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+</div>
+<div class="flex flex-col z-10">
+<div class="flex items-baseline gap-4 mb-3">
+<span class="text-label-sm text-secondary font-mono tracking-[0.2em]">01</span>
+<h2 class="text-headline-lg text-primary m-0 font-serif-tc">乾為天</h2>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                        元亨利貞。剛健中正，純陽之卦，象徵天體運行不息，君子以自強不息。
+                    </p>
+<div class="flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lens" style="font-variation-settings: 'FILL' 1;">lens</span>
+<span>核心：健進、創造</span>
+</div>
+</div>
+</article>
+<!-- Card 02: 坤 -->
+<article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl bg-surface hover:bg-surface-variant transition-colors duration-500 group cursor-pointer relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
+<!-- Hexagram Visual (CSS Built - Yin Lines) -->
+<div class="flex-shrink-0 w-12 h-16 flex flex-col justify-between opacity-70 group-hover:opacity-100 transition-opacity mt-1">
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+</div>
+<div class="flex flex-col z-10">
+<div class="flex items-baseline gap-4 mb-3">
+<span class="text-label-sm text-secondary font-mono tracking-[0.2em]">02</span>
+<h2 class="text-headline-lg text-primary m-0 font-serif-tc">坤為地</h2>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                        元亨，利牝馬之貞。柔順和載，純陰之卦，象徵大地承載萬物，厚德載物。
+                    </p>
+<div class="flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lens" style="font-variation-settings: 'FILL' 1;">lens</span>
+<span>核心：順應、包容</span>
+</div>
+</div>
+</article>
+<!-- Card 03: 屯 -->
+<article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl bg-surface hover:bg-surface-variant transition-colors duration-500 group cursor-pointer relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
+<div class="flex-shrink-0 w-12 h-16 flex flex-col justify-between opacity-70 group-hover:opacity-100 transition-opacity mt-1">
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+</div>
+<div class="flex flex-col z-10">
+<div class="flex items-baseline gap-4 mb-3">
+<span class="text-label-sm text-secondary font-mono tracking-[0.2em]">03</span>
+<h2 class="text-headline-lg text-primary m-0 font-serif-tc">水雷屯</h2>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                        元亨利貞，勿用有攸往，利建侯。萬物始生，充滿艱難與生機。
+                    </p>
+<div class="flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lens" style="font-variation-settings: 'FILL' 1;">lens</span>
+<span>核心：草創、艱難</span>
+</div>
+</div>
+</article>
+<!-- Card 04: 蒙 -->
+<article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl bg-surface hover:bg-surface-variant transition-colors duration-500 group cursor-pointer relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
+<div class="flex-shrink-0 w-12 h-16 flex flex-col justify-between opacity-70 group-hover:opacity-100 transition-opacity mt-1">
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+</div>
+<div class="flex flex-col z-10">
+<div class="flex items-baseline gap-4 mb-3">
+<span class="text-label-sm text-secondary font-mono tracking-[0.2em]">04</span>
+<h2 class="text-headline-lg text-primary m-0 font-serif-tc">山水蒙</h2>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                        亨。匪我求童蒙，童蒙求我。啟蒙之象，教化之道在於時機與誠意。
+                    </p>
+<div class="flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lens" style="font-variation-settings: 'FILL' 1;">lens</span>
+<span>核心：啟蒙、教化</span>
+</div>
+</div>
+</article>
+<!-- Card 05: 需 -->
+<article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl bg-surface hover:bg-surface-variant transition-colors duration-500 group cursor-pointer relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
+<div class="flex-shrink-0 w-12 h-16 flex flex-col justify-between opacity-70 group-hover:opacity-100 transition-opacity mt-1">
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+</div>
+<div class="flex flex-col z-10">
+<div class="flex items-baseline gap-4 mb-3">
+<span class="text-label-sm text-secondary font-mono tracking-[0.2em]">05</span>
+<h2 class="text-headline-lg text-primary m-0 font-serif-tc">水天需</h2>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                        有孚，光亨，貞吉。利涉大川。時機未到，需耐心等待，厚積薄發。
+                    </p>
+<div class="flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lens" style="font-variation-settings: 'FILL' 1;">lens</span>
+<span>核心：等待、積蓄</span>
+</div>
+</div>
+</article>
+<!-- Card 06: 訟 -->
+<article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl bg-surface hover:bg-surface-variant transition-colors duration-500 group cursor-pointer relative overflow-hidden">
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
+<div class="flex-shrink-0 w-12 h-16 flex flex-col justify-between opacity-70 group-hover:opacity-100 transition-opacity mt-1">
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+<div class="h-1.5 bg-primary w-full rounded-sm"></div>
+<div class="flex justify-between w-full h-1.5"><div class="w-[44%] bg-primary rounded-sm"></div><div class="w-[44%] bg-primary rounded-sm"></div></div>
+</div>
+<div class="flex flex-col z-10">
+<div class="flex items-baseline gap-4 mb-3">
+<span class="text-label-sm text-secondary font-mono tracking-[0.2em]">06</span>
+<h2 class="text-headline-lg text-primary m-0 font-serif-tc">天水訟</h2>
+</div>
+<p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">
+                        有孚，窒惕，中吉，終凶。利見大人，不利涉大川。爭執起，宜退讓謀和。
+                    </p>
+<div class="flex items-center gap-2 text-label-sm text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lens" style="font-variation-settings: 'FILL' 1;">lens</span>
+<span>核心：爭端、退讓</span>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-stone-50 dark:bg-zinc-900 font-serif text-xs font-medium docked full-width bottom-0 border-t border-zinc-200 dark:border-zinc-800 border-opacity-10 flat no shadows fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 md:hidden">
+<!-- Item 1: 首頁 -->
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 gap-1" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="home">home</span>
+<span>首頁</span>
+</a>
+<!-- Item 2: 館藏 -->
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 gap-1" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="library_books">library_books</span>
+<span>館藏</span>
+</a>
+<!-- Item 3: 卦象 (Active) -->
+<a class="flex flex-col items-center justify-center text-red-700 dark:text-red-500 scale-110 transition-all duration-300 gap-1" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span>卦象</span>
+</a>
+<!-- Item 4: 新增 -->
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300 gap-1" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="add_circle">add_circle</span>
+<span>新增</span>
+</a>
+</nav>
+</body></html>
+
+<!-- 條目詳解 (繁體學術 V6) -->
+<!DOCTYPE html>
+
+<html class="light" lang="zh-TW"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>認知失調 - 墨齋數據</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Serif+TC:wght@200..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#92030f",
+                      "secondary-fixed": "#e3e2e2",
+                      "tertiary-fixed": "#ffdad6",
+                      "on-primary-fixed": "#1b1c1c",
+                      "surface-variant": "#e3e3dc",
+                      "outline": "#747878",
+                      "on-tertiary-fixed": "#410003",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#171818",
+                      "surface-container": "#efeee7",
+                      "secondary-container": "#e3e2e2",
+                      "surface-container-highest": "#e3e3dc",
+                      "error": "#ba1a1a",
+                      "on-primary": "#ffffff",
+                      "surface-container-high": "#e9e8e2",
+                      "on-background": "#1b1c18",
+                      "outline-variant": "#c4c7c7",
+                      "surface-dim": "#dbdad4",
+                      "on-error": "#ffffff",
+                      "inverse-primary": "#c8c6c5",
+                      "inverse-surface": "#30312c",
+                      "primary-fixed-dim": "#c8c6c5",
+                      "inverse-on-surface": "#f2f1ea",
+                      "background": "#fafaf3",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#fafaf3",
+                      "surface": "#fafaf3",
+                      "on-tertiary-container": "#ff5a52",
+                      "on-secondary-fixed-variant": "#464747",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#e4e2e1",
+                      "tertiary-fixed-dim": "#ffb4ac",
+                      "on-surface": "#1b1c18",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-container": "#646464",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "on-primary-container": "#949393",
+                      "surface-tint": "#5f5e5e",
+                      "on-primary-fixed-variant": "#474747",
+                      "tertiary-container": "#600006",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#c7c6c6",
+                      "primary-container": "#2c2c2c",
+                      "surface-container-low": "#f5f4ed",
+                      "tertiary": "#390002",
+                      "on-surface-variant": "#444748",
+                      "secondary": "#5e5e5e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-page": "48px",
+                      "unit": "8px",
+                      "gutter": "32px",
+                      "section-gap": "80px",
+                      "container-max": "1140px"
+              },
+              "fontFamily": {
+                      "label-lg": [
+                              "Newsreader", "Noto Serif TC", "serif"
+                      ],
+                      "headline-md": [
+                              "Noto Serif TC", "serif"
+                      ],
+                      "headline-lg": [
+                              "Noto Serif TC", "serif"
+                      ],
+                      "label-sm": [
+                              "Newsreader", "Noto Serif TC", "serif"
+                      ],
+                      "headline-display": [
+                              "Noto Serif TC", "serif"
+                      ],
+                      "body-md": [
+                              "Newsreader", "Noto Serif TC", "serif"
+                      ],
+                      "body-lg": [
+                              "Newsreader", "Noto Serif TC", "serif"
+                      ]
+              },
+              "fontSize": {
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.7",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .ink-bleed {
+            background: radial-gradient(circle at center, rgba(27,28,24,0.05) 0%, transparent 70%);
+        }
+        .xuan-paper {
+            background-color: #fafaf3;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="xuan-paper text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-stone-50 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 font-serif tracking-widest text-lg docked full-width top-0 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 flex justify-between items-center w-full px-6 py-4 sticky z-50">
+<button aria-label="Menu" class="flex items-center justify-center p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded-full">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 flex-grow text-center">
+            墨齋數據
+        </div>
+<button aria-label="Search" class="flex items-center justify-center p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded-full">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[container-max] mx-auto px-6 md:px-gutter py-section-gap">
+<!-- Article Header -->
+<article class="max-w-3xl mx-auto mb-section-gap">
+<div class="mb-8 relative ink-bleed pb-12">
+<div class="flex items-center justify-between mb-6">
+<span class="text-secondary font-label-sm text-label-sm uppercase tracking-widest border-b border-outline-variant pb-1">心理學辭典</span>
+<button aria-label="Edit" class="flex items-center gap-2 text-tertiary hover:text-on-tertiary-fixed-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+<span class="font-label-sm text-label-sm">編輯</span>
+</button>
+</div>
+<h1 class="font-headline-display text-headline-display text-primary mb-6 leading-tight">
+                    認知失調<br/>
+<span class="text-secondary opacity-60 font-headline-md text-headline-md block mt-2">Cognitive Dissonance</span>
+</h1>
+<div class="flex flex-wrap gap-3 mt-8">
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-secondary font-label-sm text-label-sm hover:bg-surface-container transition-colors cursor-pointer">社會心理學</span>
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-secondary font-label-sm text-label-sm hover:bg-surface-container transition-colors cursor-pointer">費斯汀格</span>
+<span class="px-4 py-1.5 rounded-full border border-outline-variant text-secondary font-label-sm text-label-sm hover:bg-surface-container transition-colors cursor-pointer">自我辯護</span>
+</div>
+</div>
+<!-- Lead Image -->
+<figure class="mb-12 relative">
+<div class="aspect-[16/9] w-full overflow-hidden rounded-sm border border-outline-variant border-opacity-30 p-1 bg-surface-container-low">
+<img alt="Abstract representation of cognitive dissonance, overlapping semi-transparent geometric shapes in monochromatic greys and subtle reds creating a sense of tension." class="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-1000 mix-blend-multiply" data-alt="Abstract representation of cognitive dissonance, overlapping semi-transparent geometric shapes in monochromatic greys and subtle reds creating a sense of tension." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOjf4x5vHAFKZaR2dFnfzTnX2G_skcUIj2GUeaPqGz9FikwaeFNqOw8S-YHqOiWStD7oIKe1nrX3iFM5LunEfZzjhL_1TRWa5dO5GJB16m5mqp9at9k2NW8A5FwhK9wCCdjBZapcNyVnt1HjG1mtCVl3XGxr5W7D7Szafndem1CxIUIr5SvyTjNoPpLI6FviNO7HqnL0BXDy8AmUkFGHPDpTqwIYTdoDeUi34Hvb1-VV3f71heRqhI2vma706d4N1aOEoCZiG2vw"/>
+</div>
+<figcaption class="mt-4 text-right text-secondary font-label-sm text-label-sm border-r-2 border-tertiary pr-3">
+                    圖解：思想與行為衝突時的內在張力
+                </figcaption>
+</figure>
+<!-- Article Body -->
+<div class="font-body-lg text-body-lg text-on-surface leading-relaxed space-y-8 pl-4 md:pl-12 border-l border-outline-variant border-opacity-30 relative">
+<p class="first-letter:text-5xl first-letter:font-headline-display first-letter:text-primary first-letter:mr-2 first-letter:float-left">
+                    認知失調（Cognitive Dissonance）是社會心理學中最著名且最具影響力的理論之一。由心理學家萊昂·費斯汀格（Leon Festinger）於1957年提出。該理論描述了當個體持有兩種或多種相互矛盾的信念、理念或價值觀，或者當其行為與其信念不一致時，所經歷的心理不適感（心理壓力）。
+                </p>
+<p>
+                    這種不適感會成為一種內在的驅動力，促使人們試圖減少失調，以恢復心理的平衡與和諧。就像飢餓會驅使人去尋找食物一樣，認知失調會驅使人去尋找合理化的解釋。
+                </p>
+<!-- Pull Quote -->
+<blockquote class="my-12 relative py-8 px-6 bg-surface-container-low border-y border-outline-variant border-opacity-20">
+<span class="material-symbols-outlined absolute top-2 left-2 text-tertiary opacity-20 text-4xl" data-icon="format_quote" data-weight="fill">format_quote</span>
+<p class="font-headline-md text-headline-md text-primary text-center italic">
+                        「人類並非理性的動物，而是將事物合理化的動物。」
+                    </p>
+<footer class="mt-4 text-center font-label-sm text-label-sm text-secondary">—— 萊昂·費斯汀格 (Leon Festinger)</footer>
+</blockquote>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-12 mb-6 flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span>
+                    減少失調的三種主要途徑
+                </h2>
+<ul class="space-y-6 list-none relative">
+<li class="pl-8 relative">
+<span class="absolute left-0 top-2 w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<strong class="font-label-lg text-label-lg block text-primary mb-1">改變行為或信念</strong>
+<span class="text-on-surface-variant font-body-md text-body-md">最直接的方法是改變產生衝突的行為（例如：戒菸）或改變原有的信念，使其與行為一致。</span>
+</li>
+<li class="pl-8 relative">
+<span class="absolute left-0 top-2 w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<strong class="font-label-lg text-label-lg block text-primary mb-1">獲取新資訊（增加一致性認知）</strong>
+<span class="text-on-surface-variant font-body-md text-body-md">尋找支持當前行為的新證據或觀點，從而稀釋不一致認知的重要性（例如：尋找抽菸有助於集中注意力的文章）。</span>
+</li>
+<li class="pl-8 relative">
+<span class="absolute left-0 top-2 w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<strong class="font-label-lg text-label-lg block text-primary mb-1">降低衝突認知的重要性</strong>
+<span class="text-on-surface-variant font-body-md text-body-md">說服自己該衝突並不重要，或者認為自己別無選擇（例如：「人生苦短，及時行樂比長壽更重要」）。</span>
+</li>
+</ul>
+<!-- Interactive Edit Block Example -->
+<div class="mt-12 p-6 border border-outline-variant border-opacity-50 bg-surface-bright group hover:border-tertiary transition-colors relative">
+<div class="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button aria-label="Edit section" class="text-tertiary hover:bg-tertiary-fixed p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+</button>
+</div>
+<h3 class="font-label-lg text-label-lg text-secondary uppercase tracking-widest mb-4">經典實驗：一美元與二十美元</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        在1959年的經典實驗中，參與者被要求完成極其枯燥的任務，然後被要求告訴下一位參與者這個任務「非常有趣」。一些人為此得到了1美元，另一些人得到了20美元。結果顯示，只得到1美元的人事後認為任務更有趣。因為1美元不足以作為撒謊的充分理由（產生高認知失調），他們只能透過改變對任務的看法來減少內心的不適。
+                    </p>
+</div>
+</div>
+</article>
+</main>
+<!-- BottomNavBar (Hidden on md and up, visible on small screens) -->
+<nav class="md:hidden bg-stone-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 font-serif text-xs font-medium docked full-width bottom-0 border-t border-zinc-200 dark:border-zinc-800 border-opacity-10 fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2">
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span>首頁</span>
+</a>
+<a class="flex flex-col items-center justify-center text-red-700 dark:text-red-500 scale-110 active: subtle ink expansion reveal" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="library_books" data-weight="fill">library_books</span>
+<span class="text-red-700 font-bold">館藏</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome">auto_awesome</span>
+<span>卦象</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 grayscale hover:text-zinc-900 dark:hover:text-zinc-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="add_circle">add_circle</span>
+<span>新增</span>
+</a>
+</nav>
+</body></html>

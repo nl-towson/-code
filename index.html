@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>數位經案 — 首頁</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    fetch('tailwind.config.json').then(r=>r.json()).then(cfg=>{ tailwind.config = cfg; });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-tertiary-fixed selection:text-tertiary relative min-h-screen">
+
+<!-- Ink Wash Hero BG -->
+<div class="absolute inset-x-0 top-0 h-[600px] z-0 opacity-40 pointer-events-none"
+     style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuAuAOy9_PWyTEpXahXSzJwhOyC8I9gfBD478n3ZXM4UnA6-NCQpXPGJj89MGIUIZBPqhXDrL41rBkn2nFXqF678ns42u8megKIgWNR8F_0bYGz2L0-9_MPRTgJXHJPq3wAqQv1BFOb4qcO8pqVfJFvq7r-e6rOqnIpBZZfrmJp7aLbQsxPbouPJXDoyVhrwnXSIECx7cDMwYHmxCOjYQTbSmUEkU4UIyE8GC9C6y3VLgzWLZqss5Y6SQbnIyoj8KS2PknP45gD4Pg');background-size:cover;background-position:top center;mask-image:linear-gradient(to bottom,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%);-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 100%)">
+</div>
+
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-stone-50 dark:bg-zinc-900 flex justify-between items-center px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 backdrop-blur-sm bg-opacity-90">
+  <button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1 md:hidden">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+  <div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg">墨齋數據</div>
+  <nav class="hidden md:flex items-center gap-8">
+    <a data-nav="index.html"      class="text-red-700 dark:text-red-500 font-bold px-4 py-2 rounded" href="index.html">首頁</a>
+    <a data-nav="collection.html" class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="collection.html">館藏</a>
+    <a data-nav="hexagram.html"   class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="hexagram.html">卦象</a>
+    <a data-nav="add.html"        class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="add.html">新增</a>
+  </nav>
+  <button data-open-search class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<!-- Main -->
+<main class="relative z-10 max-w-[1140px] mx-auto px-8 pt-[140px] pb-[120px] md:pb-12 space-y-20">
+
+  <!-- Hero Search -->
+  <section class="flex flex-col items-center text-center space-y-8 mt-8">
+    <h1 class="font-headline-display text-headline-display text-primary tracking-wide relative">
+      數位經案
+      <span class="absolute -right-8 -top-4 text-tertiary opacity-80 material-symbols-outlined text-4xl" style="font-variation-settings:'FILL' 1">water_drop</span>
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto tracking-wide">心存玄機，筆落煙雲。請輸入關鍵詞以索驥。</p>
+    <div class="relative w-full max-w-2xl mt-4 group">
+      <input data-open-search readonly placeholder="搜尋卷宗、筆記或卦象..."
+             class="w-full bg-transparent border-0 border-b border-outline/50 text-center font-body-lg text-body-lg py-4 placeholder:text-outline-variant outline-none cursor-pointer"/>
+      <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+    </div>
+  </section>
+
+  <!-- Category Tiles -->
+  <section>
+    <div class="mb-8 flex items-center gap-4">
+      <div class="w-1 h-6 bg-tertiary/80 rounded-sm"></div>
+      <h2 class="font-headline-md text-headline-md text-primary">學海無涯</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-unit auto-rows-[180px]">
+      <a href="collection.html" class="md:col-span-2 md:row-span-2 relative group overflow-hidden border border-outline/10 bg-surface-container rounded-lg p-8 flex flex-col justify-between hover:border-outline/30 transition-colors duration-500">
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-surface-tint/5 rounded-full blur-3xl group-hover:bg-tertiary/5 transition-colors duration-1000"></div>
+        <div class="flex justify-between items-start relative z-10">
+          <span class="material-symbols-outlined text-5xl text-tertiary opacity-90" style="font-variation-settings:'FILL' 1">local_hospital</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest border border-outline/20 px-3 py-1 rounded-full">核心</span>
+        </div>
+        <div class="relative z-10">
+          <h3 class="font-headline-lg text-headline-lg text-primary mb-2">中醫</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">經方研讀、醫案記錄與藥石之理。陰陽調和，探尋生命之本源。</p>
+        </div>
+      </a>
+      <a href="collection.html" class="md:col-span-1 relative group overflow-hidden border border-outline/10 bg-surface-container-low rounded-lg p-6 flex flex-col justify-end hover:bg-surface-container-high transition-colors duration-500">
+        <span class="material-symbols-outlined text-3xl text-secondary mb-auto opacity-70 group-hover:opacity-100 transition-opacity">psychology</span>
+        <h3 class="font-headline-md text-headline-md text-primary relative z-10">心理</h3>
+      </a>
+      <a href="collection.html" class="md:col-span-1 relative group overflow-hidden border border-outline/10 bg-surface-container-low rounded-lg p-6 flex flex-col justify-end hover:bg-surface-container-high transition-colors duration-500">
+        <span class="material-symbols-outlined text-3xl text-secondary mb-auto opacity-70 group-hover:opacity-100 transition-opacity">payments</span>
+        <h3 class="font-headline-md text-headline-md text-primary relative z-10">經濟</h3>
+      </a>
+      <a href="collection.html" class="md:col-span-2 relative group overflow-hidden border border-outline/10 bg-surface-container-highest rounded-lg p-6 flex flex-row items-center justify-between hover:border-outline/30 transition-colors duration-500">
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="flex items-center gap-4 relative z-10">
+          <div class="w-12 h-12 rounded-full border border-outline/20 flex items-center justify-center bg-surface">
+            <span class="material-symbols-outlined text-secondary">edit_document</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md text-primary">個人筆記</h3>
+        </div>
+        <span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+      <a href="add.html" class="md:col-span-4 mt-4 relative group border-b border-outline/20 py-4 flex flex-row items-center justify-between hover:border-primary transition-colors duration-500">
+        <div class="flex items-center gap-4">
+          <span class="material-symbols-outlined text-tertiary">add</span>
+          <h3 class="font-headline-md text-headline-md text-primary">自定義專題</h3>
+        </div>
+        <span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">Create New</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Recent Records (JS-rendered) -->
+  <section>
+    <div class="flex justify-between items-baseline mb-8">
+      <div class="flex items-center gap-4">
+        <div class="w-1 h-6 bg-tertiary/80 rounded-sm"></div>
+        <h2 class="font-headline-md text-headline-md text-primary">近期卷宗</h2>
+      </div>
+      <a href="collection.html" class="font-label-lg text-label-lg text-secondary hover:text-primary transition-colors flex items-center gap-1 group">
+        查看全部 <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">east</span>
+      </a>
+    </div>
+    <div id="recent-list" class="space-y-8 pl-2"></div>
+  </section>
+
+</main>
+
+<!-- Bottom Nav (mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-stone-50 dark:bg-zinc-900 border-t border-zinc-200 border-opacity-10 backdrop-blur-md bg-opacity-95">
+  <a data-nav="index.html"      href="index.html"      class="flex flex-col items-center justify-center text-red-700 scale-110 relative gap-1"><span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1">home</span><span class="font-serif text-xs font-medium">首頁</span></a>
+  <a data-nav="collection.html" href="collection.html" class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">library_books</span><span class="font-serif text-xs font-medium">館藏</span></a>
+  <a data-nav="hexagram.html"   href="hexagram.html"   class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">auto_awesome</span><span class="font-serif text-xs font-medium">卦象</span></a>
+  <a data-nav="add.html"        href="add.html"        class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">add_circle</span><span class="font-serif text-xs font-medium">新增</span></a>
+</nav>
+
+<!-- Search Overlay -->
+<div id="search-overlay" role="dialog" aria-modal="true" aria-label="搜尋">
+  <button data-close-search class="absolute top-6 right-6 text-[#747878] hover:text-[#171818] transition-colors">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <input type="search" placeholder="搜尋卷宗、筆記或卦象..."/>
+  <div id="search-results"></div>
+</div>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

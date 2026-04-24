@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>墨齋數據 — 六十四卦</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    fetch('tailwind.config.json').then(r=>r.json()).then(cfg=>{ tailwind.config = cfg; });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col ink-wash-bg relative pb-24 md:pb-0 selection:bg-tertiary-fixed selection:text-tertiary">
+
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-stone-50 dark:bg-zinc-900 flex justify-between items-center px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 backdrop-blur-sm bg-opacity-90">
+  <button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1 md:hidden">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+  <div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg">墨齋數據</div>
+  <nav class="hidden md:flex items-center gap-8">
+    <a data-nav="index.html"      class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="index.html">首頁</a>
+    <a data-nav="collection.html" class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="collection.html">館藏</a>
+    <a data-nav="hexagram.html"   class="text-red-700 dark:text-red-500 font-bold px-4 py-2 rounded" href="hexagram.html">卦象</a>
+    <a data-nav="add.html"        class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="add.html">新增</a>
+  </nav>
+  <button data-open-search class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<!-- Main -->
+<main class="flex-grow px-6 py-12 md:px-12 max-w-[1140px] mx-auto w-full pt-24">
+
+  <!-- Page Header -->
+  <header class="mb-20 md:pl-12 border-l-2 border-secondary/20">
+    <h1 class="font-headline-display text-headline-display text-primary mb-6">六十四卦</h1>
+    <p class="font-body-lg text-body-lg text-secondary max-w-2xl leading-relaxed">
+      周易八卦，生生不息。觀象知意，以明得失。<br/>
+      萬物之理皆在陰陽消長之間，此為六十四卦之總覽。
+    </p>
+  </header>
+
+  <!-- Hexagram Grid — populated by JS -->
+  <div id="hexagram-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+
+</main>
+
+<!-- Bottom Nav (mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-stone-50 dark:bg-zinc-900 border-t border-zinc-200 border-opacity-10 backdrop-blur-md bg-opacity-95">
+  <a data-nav="index.html"      href="index.html"      class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">home</span><span class="font-serif text-xs font-medium">首頁</span></a>
+  <a data-nav="collection.html" href="collection.html" class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">library_books</span><span class="font-serif text-xs font-medium">館藏</span></a>
+  <a data-nav="hexagram.html"   href="hexagram.html"   class="flex flex-col items-center justify-center text-red-700 scale-110 relative gap-1"><span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1">auto_awesome</span><span class="font-serif text-xs font-medium font-bold">卦象</span></a>
+  <a data-nav="add.html"        href="add.html"        class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">add_circle</span><span class="font-serif text-xs font-medium">新增</span></a>
+</nav>
+
+<!-- Search Overlay -->
+<div id="search-overlay" role="dialog" aria-modal="true" aria-label="搜尋">
+  <button data-close-search class="absolute top-6 right-6 text-[#747878] hover:text-[#171818] transition-colors">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <input type="search" placeholder="搜尋卷宗、筆記或卦象..."/>
+  <div id="search-results"></div>
+</div>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

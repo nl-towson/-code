@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>墨齋數據 — 撰寫錄入</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    fetch('tailwind.config.json').then(r=>r.json()).then(cfg=>{ tailwind.config = cfg; });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col selection:bg-surface-variant selection:text-primary">
+
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-stone-50 dark:bg-zinc-900 flex justify-between items-center px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 backdrop-blur-sm bg-opacity-90">
+  <button class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1 md:hidden">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+  <div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg">墨齋數據</div>
+  <nav class="hidden md:flex items-center gap-8">
+    <a data-nav="index.html"      class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="index.html">首頁</a>
+    <a data-nav="collection.html" class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="collection.html">館藏</a>
+    <a data-nav="hexagram.html"   class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 px-4 py-2 rounded" href="hexagram.html">卦象</a>
+    <a data-nav="add.html"        class="text-red-700 dark:text-red-500 font-bold px-4 py-2 rounded" href="add.html">新增</a>
+  </nav>
+  <button data-open-search class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-500 rounded p-1">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<!-- Main -->
+<main class="flex-grow pt-[100px] pb-[120px] px-6 md:px-12 max-w-[1140px] mx-auto w-full">
+
+  <!-- Page Header -->
+  <div class="mb-16 max-w-3xl">
+    <h1 class="font-headline-display text-headline-display text-primary mb-4">撰寫錄入</h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant">請於此處編纂新文獻，字斟句酌，心靜如水。</p>
+  </div>
+
+  <!-- Entry Form -->
+  <form id="entry-form" class="space-y-8 max-w-4xl">
+
+    <!-- Category Selection -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="flex flex-col gap-2 relative group ink-bleed-focus p-4 -ml-4 rounded-xl">
+        <label for="select-root" class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">根目錄 Root Category</label>
+        <select id="select-root" name="category" class="shui-mo-input font-body-md text-body-md text-primary w-full cursor-pointer">
+          <option disabled selected value="">請選擇領域...</option>
+          <option value="tcm">中醫學</option>
+          <option value="psych">心理學</option>
+          <option value="econ">經濟學</option>
+          <option value="phil">哲學</option>
+          <option value="lit">文學</option>
+          <option value="notes">個人隨筆</option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-2 relative group ink-bleed-focus p-4 rounded-xl">
+        <label for="select-sub" class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">子目錄 Sub Category</label>
+        <select id="select-sub" name="subcategory" class="shui-mo-input font-body-md text-body-md text-primary w-full cursor-pointer" disabled>
+          <option disabled selected value="">請先選擇根目錄...</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div class="flex flex-col gap-2 pt-4 ink-bleed-focus p-4 -ml-4 rounded-xl">
+      <label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">標題 Title</label>
+      <input name="title" class="shui-mo-input font-headline-md text-headline-md text-primary placeholder:text-outline-variant w-full" placeholder="輸入文獻標題..." type="text"/>
+    </div>
+
+    <!-- Rich Text Editor -->
+    <div class="flex flex-col gap-0 border border-outline-variant/30 rounded-lg overflow-hidden bg-surface-container-lowest focus-within:border-outline transition-colors duration-500 group relative">
+      <div class="absolute inset-0 opacity-0 group-focus-within:opacity-100 transition-opacity duration-1000 pointer-events-none bg-gradient-to-br from-surface-container-low to-transparent"></div>
+      <!-- Toolbar -->
+      <div class="flex flex-wrap items-center gap-1 p-2 border-b border-outline-variant/20 bg-surface-container-lowest relative z-10">
+        <button aria-label="Bold"           class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+        <button aria-label="Italic"         class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+        <button aria-label="Underline"      class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_underlined</span></button>
+        <div class="w-px h-5 bg-outline-variant/30 mx-2"></div>
+        <button aria-label="Heading"        class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_h1</span></button>
+        <button aria-label="Quote"          class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_quote</span></button>
+        <div class="w-px h-5 bg-outline-variant/30 mx-2"></div>
+        <button aria-label="Bulleted List"  class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+        <button aria-label="Numbered List"  class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">format_list_numbered</span></button>
+        <div class="w-px h-5 bg-outline-variant/30 mx-2"></div>
+        <button aria-label="Link"           class="editor-toolbar-btn" type="button"><span class="material-symbols-outlined text-[20px]">link</span></button>
+      </div>
+      <!-- Editor Canvas -->
+      <textarea name="content" class="w-full min-h-[360px] bg-transparent resize-y p-6 font-body-md text-body-md text-primary leading-relaxed focus:outline-none placeholder:text-outline-variant relative z-10" placeholder="正文於此，筆走龍蛇..."></textarea>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="flex flex-col gap-4 pt-4">
+      <label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest pl-4">配圖 Media</label>
+      <div id="media-dropzone" class="w-full aspect-video md:aspect-[21/9] border border-outline-variant border-dashed flex flex-col items-center justify-center gap-4 bg-surface-container-low hover:bg-surface-container transition-all duration-500 cursor-pointer relative overflow-hidden group">
+        <div class="absolute inset-0 opacity-30 group-hover:opacity-60 transition-opacity duration-700 ink-bleed-bg"></div>
+        <span class="material-symbols-outlined text-4xl text-outline group-hover:text-primary transition-colors duration-300 relative z-10 dropzone-hint">image</span>
+        <div class="text-center relative z-10 dropzone-hint">
+          <p class="font-label-lg text-label-lg text-primary mb-1">點擊或拖曳圖片至此</p>
+          <p class="font-body-md text-body-md text-secondary text-sm">支援 JPG, PNG, WEBP（最大 5MB）</p>
+        </div>
+        <input type="file" id="media-input" accept="image/jpeg,image/png,image/webp" class="sr-only"/>
+      </div>
+    </div>
+
+    <!-- Tag Management -->
+    <div class="flex flex-col gap-4 pt-4 ink-bleed-focus p-4 -ml-4 rounded-xl">
+      <label class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">標籤 Tags</label>
+      <div id="tag-container" class="flex flex-wrap gap-3 items-center">
+        <span class="tag-chip" data-tag="經典文獻">經典文獻<span class="material-symbols-outlined remove-tag">close</span></span>
+        <span class="tag-chip" data-tag="考據">考據<span class="material-symbols-outlined remove-tag">close</span></span>
+        <button id="add-tag-btn" class="px-4 py-1.5 border border-dashed border-outline text-secondary font-label-sm text-label-sm flex items-center gap-2 hover:text-primary hover:border-primary transition-colors" type="button">
+          <span class="material-symbols-outlined text-[16px]">add</span>
+          新增標籤
+        </button>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row justify-end items-center gap-4 pt-20 border-t border-outline-variant/20 mt-12">
+      <button id="btn-draft" class="w-full sm:w-auto px-8 py-3 border border-outline text-on-surface font-label-lg text-label-lg hover:bg-surface-container hover:text-primary transition-all duration-300 flex items-center justify-center gap-2" type="button">
+        <span class="material-symbols-outlined text-[18px]">draft</span>
+        存為草稿
+      </button>
+      <button class="w-full sm:w-auto px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] relative overflow-hidden group" type="submit">
+        <span class="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none scale-150"></span>
+        <span class="material-symbols-outlined text-[18px]">send</span>
+        正式發佈
+      </button>
+    </div>
+
+  </form>
+</main>
+
+<!-- Bottom Nav (mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-stone-50 dark:bg-zinc-900 border-t border-zinc-200 border-opacity-10 backdrop-blur-md bg-opacity-95">
+  <a data-nav="index.html"      href="index.html"      class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">home</span><span class="font-serif text-xs font-medium">首頁</span></a>
+  <a data-nav="collection.html" href="collection.html" class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">library_books</span><span class="font-serif text-xs font-medium">館藏</span></a>
+  <a data-nav="hexagram.html"   href="hexagram.html"   class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">auto_awesome</span><span class="font-serif text-xs font-medium">卦象</span></a>
+  <a data-nav="add.html"        href="add.html"        class="flex flex-col items-center justify-center text-red-700 scale-110 relative gap-1"><span class="material-symbols-outlined mb-1" style="font-variation-settings:'FILL' 1">add_circle</span><span class="font-serif text-xs font-medium font-bold">新增</span></a>
+</nav>
+
+<!-- Search Overlay -->
+<div id="search-overlay" role="dialog" aria-modal="true" aria-label="搜尋">
+  <button data-close-search class="absolute top-6 right-6 text-[#747878] hover:text-[#171818] transition-colors">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <input type="search" placeholder="搜尋卷宗、筆記或卦象..."/>
+  <div id="search-results"></div>
+</div>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

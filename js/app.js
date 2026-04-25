@@ -393,34 +393,27 @@ async function initHexagrams() {
   }
 
   grid.innerHTML = data.hexagrams.map(h => `
-    <article class="flex items-start gap-6 p-8 border border-secondary/10 rounded-xl
-                    bg-surface hover:bg-surface-variant transition-colors duration-500
-                    group cursor-pointer relative overflow-hidden"
-             data-hexagram="${h.id}">
-      <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-secondary/5 rounded-full
-                  blur-2xl group-hover:bg-secondary/10 transition-colors duration-700"></div>
-      <div class="flex-shrink-0 w-12 flex flex-col justify-between gap-[6px] opacity-70
-                  group-hover:opacity-100 transition-opacity mt-2">
+    <a href="${resolveAppURL('hexagram-detail.html')}?id=${h.id}"
+       class="flex items-center gap-6 p-6 border border-secondary/10 rounded-xl
+              bg-surface hover:bg-surface-variant transition-colors duration-300
+              group cursor-pointer relative overflow-hidden"
+       data-hexagram="${h.id}">
+      <div class="flex-shrink-0 w-10 flex flex-col justify-between gap-[5px] opacity-60
+                  group-hover:opacity-100 transition-opacity">
         ${renderLines(h.symbol)}
       </div>
-      <div class="flex flex-col z-10 min-w-0">
-        <div class="flex items-baseline gap-4 mb-3">
+      <div class="flex flex-col z-10 min-w-0 flex-1">
+        <div class="flex items-baseline gap-3 mb-1">
           <span class="text-label-sm text-secondary font-mono tracking-[0.2em] flex-shrink-0">${String(h.id).padStart(2, '0')}</span>
           <h2 class="text-headline-md text-primary m-0" style="font-family:'Noto Serif TC',serif">${h.name}</h2>
         </div>
-        <p class="text-body-md text-on-surface-variant mb-4 line-clamp-2" style="font-size:14px">${h.judgment}</p>
         <div class="flex items-center gap-2" style="font-size:12px;color:#92030f">
-          <span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">lens</span>
-          <span>核心：${h.core}</span>
+          <span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1">lens</span>
+          <span>${h.core}</span>
         </div>
       </div>
-    </article>`).join('');
-
-  grid.querySelectorAll('[data-hexagram]').forEach(card => {
-    card.addEventListener('click', () =>
-      showToast(`第 ${card.dataset.hexagram} 卦 · ${card.querySelector('h2')?.textContent ?? ''}`)
-    );
-  });
+      <span class="material-symbols-outlined text-outline/40 group-hover:text-outline transition-colors flex-shrink-0">chevron_right</span>
+    </a>`).join('');
 }
 
 function renderLines(symbol) {
@@ -433,6 +426,53 @@ function renderLines(symbol) {
            <div style="height:4px;background:#171818;border-radius:2px;width:44%"></div>
          </div>`
   ).join('');
+}
+
+/* ─────────────────────────────────────────
+   Hexagram detail page — load single hexagram
+───────────────────────────────────────── */
+async function initHexagramDetail() {
+  const content = document.getElementById('detail-content');
+  if (!content) return;
+
+  const loading = document.getElementById('detail-loading');
+  const error   = document.getElementById('detail-error');
+  const id      = parseInt(new URLSearchParams(location.search).get('id'), 10);
+
+  let data;
+  try { data = await fetchJSON('data/hexagrams.json'); }
+  catch {
+    loading?.classList.add('hidden');
+    error?.classList.remove('hidden');
+    return;
+  }
+
+  const h = data.hexagrams.find(x => x.id === id);
+  if (!h) {
+    loading?.classList.add('hidden');
+    error?.classList.remove('hidden');
+    return;
+  }
+
+  document.title = `${h.name} — 墨齋數據`;
+  document.getElementById('detail-id').textContent   = `第 ${String(h.id).padStart(2, '0')} 卦`;
+  document.getElementById('detail-name').textContent = h.name;
+  document.getElementById('detail-core').textContent = h.core;
+  document.getElementById('detail-judgment').textContent = h.judgment;
+  document.getElementById('detail-desc').textContent = h.desc ?? '';
+
+  const symEl = document.getElementById('detail-symbol');
+  symEl.innerHTML = h.symbol.split('').map(bit =>
+    bit === '1'
+      ? `<div style="height:5px;background:#171818;border-radius:2px;width:100%"></div>`
+      : `<div style="display:flex;justify-content:space-between;width:100%">
+           <div style="height:5px;background:#171818;border-radius:2px;width:44%"></div>
+           <div style="height:5px;background:#171818;border-radius:2px;width:44%"></div>
+         </div>`
+  ).join('');
+
+  loading?.classList.add('hidden');
+  content.classList.remove('hidden');
 }
 
 /* ─────────────────────────────────────────
@@ -644,6 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCategorySelect();
   initForm();
   initHexagrams();
+  initHexagramDetail();
   initCollection();
   initHome();
   initArticle();

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>卦象詳情 — 墨齋數據</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    fetch('tailwind.config.json').then(r=>r.json()).then(cfg=>{ tailwind.config = cfg; });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+</head>
+<body class="xuan-paper text-on-background antialiased min-h-screen flex flex-col selection:bg-tertiary-fixed selection:text-tertiary">
+
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-stone-50 dark:bg-zinc-900 flex justify-between items-center px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 backdrop-blur-sm bg-opacity-90">
+  <button onclick="history.back()" class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-300 rounded p-1 flex items-center justify-center">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-lg">墨齋數據</div>
+  <button data-open-search class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-300 rounded p-1">
+    <span class="material-symbols-outlined">search</span>
+  </button>
+</header>
+
+<!-- Main -->
+<main id="detail-body" class="flex-grow w-full max-w-2xl mx-auto px-6 md:px-8 pt-28 pb-32 md:pb-20">
+
+  <div id="detail-loading" class="flex items-center justify-center py-32 text-secondary">載入中…</div>
+
+  <div id="detail-content" class="hidden">
+
+    <!-- 卦序 + 卦名 -->
+    <div class="mb-12">
+      <span id="detail-id" class="font-mono text-sm tracking-[0.25em] text-secondary"></span>
+      <h1 id="detail-name" class="font-headline-display text-headline-display text-primary mt-2 mb-0" style="font-family:'Noto Serif TC',serif"></h1>
+    </div>
+
+    <!-- 卦象圖 -->
+    <div class="flex justify-center mb-12">
+      <div id="detail-symbol" class="flex flex-col gap-3 w-16"></div>
+    </div>
+
+    <!-- 核心概念 -->
+    <div class="flex items-center gap-2 mb-10" style="color:#92030f">
+      <span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">lens</span>
+      <span id="detail-core" class="text-sm tracking-widest"></span>
+    </div>
+
+    <!-- 分隔 -->
+    <div class="border-t border-outline-variant/30 mb-10"></div>
+
+    <!-- 卦辭 -->
+    <section class="mb-10">
+      <h2 class="text-label-sm text-secondary tracking-[0.2em] uppercase mb-4">卦　辭</h2>
+      <p id="detail-judgment" class="text-xl leading-loose" style="font-family:'Noto Serif TC',serif"></p>
+    </section>
+
+    <!-- 白話解釋 -->
+    <section class="mb-10 pl-6 border-l-2 border-secondary/20">
+      <h2 class="text-label-sm text-secondary tracking-[0.2em] uppercase mb-4">白話解釋</h2>
+      <p id="detail-desc" class="text-body-lg leading-relaxed text-on-surface-variant" style="line-height:2"></p>
+    </section>
+
+    <!-- 返回 -->
+    <div class="mt-16 pt-8 border-t border-outline-variant/20">
+      <a href="hexagram.html" class="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors font-label-lg text-label-lg group">
+        <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
+        返回六十四卦
+      </a>
+    </div>
+
+  </div>
+
+  <div id="detail-error" class="hidden text-center py-32">
+    <p style="color:#ba1a1a;font-size:16px">找不到此卦象</p>
+    <a href="hexagram.html" class="mt-4 inline-block text-secondary hover:text-primary transition-colors text-sm">返回六十四卦</a>
+  </div>
+
+</main>
+
+<!-- Bottom Nav (mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-stone-50 dark:bg-zinc-900 border-t border-zinc-200 border-opacity-10 backdrop-blur-md bg-opacity-95">
+  <a data-nav="index.html"      href="index.html"      class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">home</span><span class="font-serif text-xs font-medium">首頁</span></a>
+  <a data-nav="collection.html" href="collection.html" class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">library_books</span><span class="font-serif text-xs font-medium">館藏</span></a>
+  <a data-nav="hexagram.html"   href="hexagram.html"   class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">auto_awesome</span><span class="font-serif text-xs font-medium">卦象</span></a>
+  <a data-nav="add.html"        href="add.html"        class="flex flex-col items-center justify-center text-zinc-500 hover:text-zinc-900 transition-all duration-300 gap-1"><span class="material-symbols-outlined mb-1">add_circle</span><span class="font-serif text-xs font-medium">新增</span></a>
+</nav>
+
+<!-- Search Overlay -->
+<div id="search-overlay" role="dialog" aria-modal="true" aria-label="搜尋">
+  <button data-close-search class="absolute top-6 right-6 text-[#747878] hover:text-[#171818] transition-colors">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <input type="search" placeholder="搜尋卷宗、筆記或卦象..."/>
+  <div id="search-results"></div>
+</div>
+
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>

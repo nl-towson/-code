@@ -202,38 +202,76 @@ function initSearch() {
     if (results) results.innerHTML = '';
   }
 
-  // live search against records.json
+  // live search against records + hexagrams
   if (!input) return;
   input.addEventListener('input', debounce(async () => {
     const q = input.value.trim().toLowerCase();
     if (!q) { results.innerHTML = ''; return; }
 
-    let data;
-    try { data = await fetchJSON('data/records.json'); }
-    catch (err) {
+    results.innerHTML = `<div style="color:#747878;font-size:13px;text-align:center;padding:16px">搜尋中…</div>`;
+
+    let recordsData, hexData;
+    try {
+      [recordsData, hexData] = await Promise.all([getRecordsData(), getHexagramData()]);
+    } catch {
       results.innerHTML = `<div style="color:#ba1a1a;font-size:14px;text-align:center;padding:24px">搜尋失敗，請確認資料文件存在</div>`;
       return;
     }
 
-    const hits = data.records.filter(r =>
-      r.title.toLowerCase().includes(q) ||
-      r.excerpt.toLowerCase().includes(q) ||
-      r.tags.some(t => t.toLowerCase().includes(q)) ||
-      categoryLabel(r.category).includes(q)
-    );
+    // ── Search records ──
+    const recordHits = recordsData.records.filter(r => {
+      const fields = [
+        r.title, r.excerpt, r.content,
+        categoryLabel(r.category),
+        ...(r.tags || []),
+      ].map(s => (s || '').toLowerCase());
+      return fields.some(f => f.includes(q));
+    }).map(r => ({
+      type: 'record',
+      badge: categoryLabel(r.category),
+      title: r.title,
+      sub: r.date,
+      snippet: r.excerpt || r.content?.slice(0, 80) || '',
+      url: `article.html?id=${r.id}`,
+    }));
 
-    results.innerHTML = hits.length
-      ? hits.map(r => `
-          <div class="search-result-item" data-id="${r.id}">
-            <div style="font-size:12px;letter-spacing:.1em;color:#747878;margin-bottom:4px">${r.date} · ${categoryLabel(r.category)}</div>
-            <div style="font-family:'Noto Serif TC',serif;font-size:18px;color:#171818;margin-bottom:4px">${highlight(r.title, q)}</div>
-            <div style="font-size:14px;color:#444748;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${r.excerpt}</div>
-          </div>`).join('')
-      : `<div style="color:#747878;font-size:14px;text-align:center;padding:24px">未找到相關記錄</div>`;
+    // ── Search hexagrams ──
+    const hexHits = hexData.hexagrams.filter(h => {
+      const yaoText = (h.yao || []).map(y => `${y.name} ${y.text} ${y.translation}`).join(' ');
+      const fields = [
+        h.name, h.core, h.judgment, h.desc, h.detail, yaoText,
+      ].map(s => (s || '').toLowerCase());
+      return fields.some(f => f.includes(q));
+    }).map(h => ({
+      type: 'hexagram',
+      badge: '卦象',
+      title: h.name,
+      sub: `第 ${String(h.id).padStart(2, '0')} 卦 · ${h.core}`,
+      snippet: h.desc || h.judgment || '',
+      url: `hexagram-detail.html?id=${h.id}`,
+    }));
 
-    results.querySelectorAll('[data-id]').forEach(el => {
+    const hits = [...recordHits, ...hexHits];
+
+    if (!hits.length) {
+      results.innerHTML = `<div style="color:#747878;font-size:14px;text-align:center;padding:24px">未找到「${q}」相關記錄</div>`;
+      return;
+    }
+
+    results.innerHTML = hits.map(h => `
+      <div class="search-result-item" data-url="${h.url}" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span style="font-size:11px;letter-spacing:.1em;color:#fff;background:${h.type==='hexagram'?'#390002':'#5e5e5e'};padding:2px 7px;border-radius:3px">${h.badge}</span>
+          <span style="font-size:12px;letter-spacing:.08em;color:#747878">${h.sub}</span>
+        </div>
+        <div style="font-family:'Noto Serif TC',serif;font-size:18px;color:#171818;margin-bottom:4px">${highlight(h.title, q)}</div>
+        <div style="font-size:14px;color:#444748;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${highlight(h.snippet, q)}</div>
+      </div>`).join('');
+
+    results.querySelectorAll('[data-url]').forEach(el => {
       el.addEventListener('click', () => {
-        window.location.href = resolveAppURL(`article.html?id=${el.dataset.id}`);
+        window.location.href = resolveAppURL(el.dataset.url);
+        closeSearch();
       });
     });
   }, 250));

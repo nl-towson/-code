@@ -88,6 +88,30 @@ function showToast(msg, ms = 2200) {
 ───────────────────────────────────────── */
 const _cache = {};
 
+/* ─────────────────────────────────────────
+   Hexagram local overrides (localStorage)
+   Allows editing hexagram data in-browser.
+───────────────────────────────────────── */
+const HEX_OVERRIDES_KEY = 'mozhai_hex_overrides';
+
+function getHexOverrides() { return load(HEX_OVERRIDES_KEY, {}); }
+
+function saveHexOverride(h) {
+  const ov = getHexOverrides();
+  ov[h.id] = h;
+  store(HEX_OVERRIDES_KEY, ov);
+}
+
+async function getHexagramData() {
+  const data = await fetchJSON('data/hexagrams.json');
+  const ov = getHexOverrides();
+  if (!Object.keys(ov).length) return data;
+  return {
+    ...data,
+    hexagrams: data.hexagrams.map(h => ov[h.id] ? { ...h, ...ov[h.id] } : h),
+  };
+}
+
 function resolveAppURL(path) {
   // Find the root of the app by walking up from the current page
   // until we find the directory that contains index.html.
@@ -382,7 +406,7 @@ async function initHexagrams() {
   grid.innerHTML = `<div class="col-span-full flex items-center justify-center py-20 text-secondary text-label-lg">載入中…</div>`;
 
   let data;
-  try { data = await fetchJSON('data/hexagrams.json'); }
+  try { data = await getHexagramData(); }
   catch (err) {
     grid.innerHTML = `
       <div class="col-span-full text-center py-20">
@@ -440,7 +464,7 @@ async function initHexagramDetail() {
   const id      = parseInt(new URLSearchParams(location.search).get('id'), 10);
 
   let data;
-  try { data = await fetchJSON('data/hexagrams.json'); }
+  try { data = await getHexagramData(); }
   catch {
     loading?.classList.add('hidden');
     error?.classList.remove('hidden');
@@ -473,6 +497,9 @@ async function initHexagramDetail() {
 
   loading?.classList.add('hidden');
   content.classList.remove('hidden');
+
+  const editLink = document.getElementById('hex-edit-link');
+  if (editLink) editLink.href = `edit-hexagram.html?id=${id}`;
 }
 
 /* ─────────────────────────────────────────
@@ -651,6 +678,159 @@ async function initArticle() {
 }
 
 /* ─────────────────────────────────────────
+   Edit hexagram page
+───────────────────────────────────────── */
+async function initEditHexagram() {
+  const form = document.getElementById('hex-edit-form');
+  if (!form) return;
+
+  let id = parseInt(new URLSearchParams(location.search).get('id'), 10) || 1;
+
+  function updateSymRow(el, bit) {
+    el.innerHTML = bit === '1'
+      ? `<div style="height:6px;background:#171818;border-radius:3px;width:100%"></div>`
+      : `<div style="display:flex;justify-content:space-between"><div style="height:6px;background:#171818;border-radius:3px;width:44%"></div><div style="height:6px;background:#171818;border-radius:3px;width:44%"></div></div>`;
+  }
+
+  function buildSymbolEditor(symbol) {
+    const el = document.getElementById('symbol-editor');
+    el.innerHTML = '';
+    (symbol || '111111').split('').forEach((bit, i) => {
+      const row = document.createElement('div');
+      row.dataset.idx = i;
+      row.dataset.val = bit;
+      row.className = 'sym-row';
+      updateSymRow(row, bit);
+      row.addEventListener('click', () => {
+        const nv = row.dataset.val === '1' ? '0' : '1';
+        row.dataset.val = nv;
+        updateSymRow(row, nv);
+      });
+      el.appendChild(row);
+    });
+  }
+
+  function buildYaoUI() {
+    document.getElementById('yao-container').innerHTML = Array.from({length: 6}, (_, i) => `
+      <details class="yao-section" id="yao-details-${i}">
+        <summary>
+          <span class="material-symbols-outlined chevron" style="font-size:18px;color:#747878">chevron_right</span>
+          <span class="font-mono text-sm tracking-widest" style="color:#747878">第 ${i + 1} 爻</span>
+          <span id="yao-summary-${i}" class="text-sm ml-2 truncate flex-1" style="color:#1b1c18"></span>
+        </summary>
+        <div class="space-y-4 pt-4 pb-2">
+          <div>
+            <label class="field-label">爻名</label>
+            <input id="yao-name-${i}" class="field-input" type="text" placeholder="例：初九"/>
+          </div>
+          <div>
+            <label class="field-label">爻辭（原文）</label>
+            <textarea id="yao-text-${i}" class="field-input" rows="2" placeholder="例：潛龍勿用。"></textarea>
+          </div>
+          <div>
+            <label class="field-label">白話解釋</label>
+            <textarea id="yao-trans-${i}" class="field-input" rows="3" placeholder="白話文解釋…"></textarea>
+          </div>
+        </div>
+      </details>`).join('');
+
+    for (let i = 0; i < 6; i++) {
+      document.getElementById(`yao-name-${i}`).addEventListener('input', () => {
+        document.getElementById(`yao-summary-${i}`).textContent =
+          document.getElementById(`yao-name-${i}`).value;
+      });
+    }
+  }
+
+  function readForm() {
+    const symbol = [...document.querySelectorAll('#symbol-editor [data-idx]')]
+      .map(el => el.dataset.val).join('');
+    return {
+      id,
+      name:     document.getElementById('edit-name').value,
+      symbol,
+      judgment: document.getElementById('edit-judgment').value,
+      core:     document.getElementById('edit-core').value,
+      desc:     document.getElementById('edit-desc').value,
+      detail:   document.getElementById('edit-detail').value,
+      yao: Array.from({length: 6}, (_, i) => ({
+        name:        document.getElementById(`yao-name-${i}`).value,
+        text:        document.getElementById(`yao-text-${i}`).value,
+        translation: document.getElementById(`yao-trans-${i}`).value,
+      })),
+    };
+  }
+
+  async function populatePage() {
+    id = parseInt(new URLSearchParams(location.search).get('id'), 10) || 1;
+
+    let allData;
+    try { allData = await getHexagramData(); }
+    catch { showToast('資料載入失敗'); return; }
+
+    const h = allData.hexagrams.find(x => x.id === id) || {
+      id, name: '', symbol: '111111', judgment: '', core: '', desc: '', detail: '',
+      yao: Array.from({length: 6}, () => ({name: '', text: '', translation: ''})),
+    };
+
+    document.title = `編輯：第 ${String(id).padStart(2, '0')} 卦 — 墨齋數據`;
+    document.getElementById('edit-id-label').textContent = `第 ${String(id).padStart(2, '0')} 卦`;
+    document.getElementById('edit-name').value     = h.name     ?? '';
+    document.getElementById('edit-judgment').value = h.judgment ?? '';
+    document.getElementById('edit-core').value     = h.core     ?? '';
+    document.getElementById('edit-desc').value     = h.desc     ?? '';
+    document.getElementById('edit-detail').value   = h.detail   ?? '';
+
+    buildSymbolEditor(h.symbol);
+
+    (h.yao || []).forEach((y, i) => {
+      document.getElementById(`yao-name-${i}`).value  = y.name        ?? '';
+      document.getElementById(`yao-text-${i}`).value  = y.text        ?? '';
+      document.getElementById(`yao-trans-${i}`).value = y.translation ?? '';
+      document.getElementById(`yao-summary-${i}`).textContent = y.name ?? '';
+    });
+
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    if (btnPrev) btnPrev.disabled = id <= 1;
+    if (btnNext) btnNext.disabled = id >= 64;
+  }
+
+  buildYaoUI();
+  await populatePage();
+
+  document.getElementById('btn-save').addEventListener('click', () => {
+    saveHexOverride(readForm());
+    showToast('✓ 已儲存到本機');
+  });
+
+  document.getElementById('btn-export').addEventListener('click', async () => {
+    saveHexOverride(readForm());
+    const base = JSON.parse(JSON.stringify(await fetchJSON('data/hexagrams.json')));
+    const ov = getHexOverrides();
+    base.hexagrams = base.hexagrams.map(h => ov[h.id] ? { ...h, ...ov[h.id] } : h);
+    const blob = new Blob([JSON.stringify(base, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'hexagrams.json'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('✓ 已匯出 hexagrams.json');
+  });
+
+  document.getElementById('btn-prev')?.addEventListener('click', () => {
+    saveHexOverride(readForm());
+    history.pushState({}, '', `?id=${id - 1}`);
+    populatePage();
+  });
+
+  document.getElementById('btn-next')?.addEventListener('click', () => {
+    saveHexOverride(readForm());
+    history.pushState({}, '', `?id=${id + 1}`);
+    populatePage();
+  });
+}
+
+/* ─────────────────────────────────────────
    Nav — highlight active page link
 ───────────────────────────────────────── */
 function initNav() {
@@ -685,6 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   initHexagrams();
   initHexagramDetail();
+  initEditHexagram();
   initCollection();
   initHome();
   initArticle();

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>編輯卦象 — 墨齋數據</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    fetch('tailwind.config.json').then(r=>r.json()).then(cfg=>{ tailwind.config = cfg; });
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <style>
+    /* ── Field styles ── */
+    .field-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #747878;
+      margin-bottom: 6px;
+      font-family: 'Newsreader', serif;
+    }
+    .field-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #c4c7c7;
+      padding: 8px 0;
+      width: 100%;
+      font-size: 16px;
+      line-height: 1.7;
+      font-family: 'Noto Serif TC', serif;
+      color: #1b1c18;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .field-input:focus { border-bottom-color: #171818; }
+    textarea.field-input { resize: vertical; min-height: 80px; }
+
+    /* ── Yao accordion ── */
+    .yao-section {
+      border-left: 2px solid #e3e3dc;
+      padding-left: 16px;
+      margin-bottom: 0;
+    }
+    .yao-section summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      user-select: none;
+    }
+    .yao-section summary::-webkit-details-marker { display: none; }
+    .chevron { transition: transform 0.2s ease; }
+    .yao-section[open] > summary .chevron { transform: rotate(90deg); }
+
+    /* ── Symbol editor ── */
+    .sym-row {
+      cursor: pointer;
+      padding: 3px 0;
+      transition: opacity 0.15s;
+    }
+    .sym-row:hover { opacity: 0.55; }
+
+    /* ── Section divider ── */
+    .section-title {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #747878;
+      border-bottom: 1px solid #e3e3dc;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      font-family: 'Newsreader', serif;
+    }
+  </style>
+</head>
+<body class="xuan-paper text-on-background antialiased min-h-screen flex flex-col selection:bg-tertiary-fixed selection:text-tertiary">
+
+<!-- ── Top App Bar ── -->
+<header class="fixed top-0 w-full z-40 bg-stone-50 dark:bg-zinc-900 flex justify-between items-center px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 border-opacity-20 backdrop-blur-sm bg-opacity-90">
+  <button onclick="history.back()"
+          class="text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors duration-300 rounded p-1 flex items-center justify-center">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+  <div class="font-serif font-bold text-zinc-900 dark:text-zinc-50 tracking-widest text-base">編輯卦象</div>
+  <button id="btn-export"
+          class="flex items-center gap-1 px-3 py-1.5 border border-outline/30 text-secondary hover:text-primary hover:border-primary transition-colors rounded"
+          style="font-size:12px;letter-spacing:0.08em">
+    <span class="material-symbols-outlined" style="font-size:16px">download</span>
+    匯出 JSON
+  </button>
+</header>
+
+<!-- ── Main ── -->
+<main id="hex-edit-form" class="flex-grow w-full max-w-2xl mx-auto px-6 md:px-8 pt-28 pb-36">
+
+  <!-- Hexagram Navigation -->
+  <div class="flex items-center justify-between mb-10">
+    <button id="btn-prev"
+            class="flex items-center gap-1 text-secondary hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            style="font-size:13px;letter-spacing:0.05em">
+      <span class="material-symbols-outlined" style="font-size:20px">chevron_left</span>
+      上一卦
+    </button>
+    <span id="edit-id-label" class="font-mono text-sm tracking-[0.25em] text-secondary"></span>
+    <button id="btn-next"
+            class="flex items-center gap-1 text-secondary hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            style="font-size:13px;letter-spacing:0.05em">
+      下一卦
+      <span class="material-symbols-outlined" style="font-size:20px">chevron_right</span>
+    </button>
+  </div>
+
+  <!-- ── Section 1: 基本資料 ── -->
+  <section class="mb-10 space-y-7">
+    <h2 class="section-title">基本資料</h2>
+
+    <div>
+      <label class="field-label">卦名</label>
+      <input id="edit-name" class="field-input" type="text" placeholder="例：乾為天"
+             style="font-size:22px;font-family:'Noto Serif TC',serif"/>
+    </div>
+
+    <div>
+      <label class="field-label">核心概念</label>
+      <input id="edit-core" class="field-input" type="text" placeholder="例：健進、創造"/>
+    </div>
+
+    <div>
+      <label class="field-label">卦辭（原文）</label>
+      <textarea id="edit-judgment" class="field-input" rows="3"
+                placeholder="例：元亨利貞。"></textarea>
+    </div>
+  </section>
+
+  <!-- ── Section 2: 卦象圖 ── -->
+  <section class="mb-10">
+    <h2 class="section-title">
+      卦象圖
+      <span style="font-size:10px;letter-spacing:0.05em;text-transform:none;margin-left:8px;color:#c4c7c7">
+        點擊每條線可切換陰（斷）陽（連）
+      </span>
+    </h2>
+    <div class="flex justify-center">
+      <div id="symbol-editor" class="flex flex-col gap-3 w-16"></div>
+    </div>
+  </section>
+
+  <!-- ── Section 3: 解釋文字 ── -->
+  <section class="mb-10 space-y-7">
+    <h2 class="section-title">解釋文字</h2>
+
+    <div>
+      <label class="field-label">白話解釋</label>
+      <textarea id="edit-desc" class="field-input" rows="5"
+                placeholder="以白話文描述此卦的意義…" style="min-height:120px"></textarea>
+    </div>
+
+    <div>
+      <label class="field-label">詳細說明</label>
+      <textarea id="edit-detail" class="field-input" rows="6"
+                placeholder="更深入的卦象說明…" style="min-height:140px"></textarea>
+    </div>
+  </section>
+
+  <!-- ── Section 4: 六爻 ── -->
+  <section class="mb-10">
+    <h2 class="section-title">六爻詳解</h2>
+    <div id="yao-container" class="space-y-2"></div>
+  </section>
+
+</main>
+
+<!-- ── Sticky Save Bar ── -->
+<div class="fixed bottom-0 left-0 w-full z-40 border-t border-zinc-200 dark:border-zinc-800 px-6 py-3 flex items-center justify-between gap-4"
+     style="background:rgba(250,250,243,0.96);backdrop-filter:blur(8px)">
+  <p class="text-xs text-secondary/60 tracking-wide hidden sm:block" style="max-width:340px">
+    儲存後請點「匯出 JSON」，將下載的檔案覆蓋到 <code>data/hexagrams.json</code> 以永久生效
+  </p>
+  <button id="btn-save"
+          class="flex items-center gap-2 px-6 py-2.5 bg-primary text-on-primary hover:bg-primary/90 transition-colors rounded shadow-sm whitespace-nowrap"
+          style="font-size:13px;letter-spacing:0.1em">
+    <span class="material-symbols-outlined" style="font-size:18px">save</span>
+    儲存到本機
+  </button>
+</div>
+
+<!-- Search Overlay (shared component, keep for consistency) -->
+<div id="search-overlay" class="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm hidden flex-col items-center pt-24 px-6">
+  <div class="w-full max-w-2xl">
+    <div class="flex items-center gap-4 border-b border-outline pb-4 mb-8">
+      <span class="material-symbols-outlined text-secondary">search</span>
+      <input type="search" placeholder="搜尋卦象…"
+             class="flex-1 bg-transparent outline-none text-xl text-primary placeholder:text-outline-variant"/>
+      <button data-close-search class="text-secondary hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div id="search-results"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

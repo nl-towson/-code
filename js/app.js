@@ -13,60 +13,54 @@ const STORAGE = {
   darkMode:  'mozhai_dark',
 };
 
-// Category ID → Chinese label map (kept in sync with records.json)
-const CATEGORY_LABELS = {
-  tcm:   '中醫學',
-  psych: '心理學',
-  econ:  '經濟學',
-  notes: '個人隨筆',
-  phil:  '哲學',
-  lit:   '文學',
+/* ─────────────────────────────────────────
+   Dynamic category system (localStorage)
+───────────────────────────────────────── */
+const _DEFAULT_CATS = {
+  roots: [
+    { id: 'tcm',   label: '中醫學',   icon: 'local_hospital' },
+    { id: 'psych', label: '心理學',   icon: 'psychology' },
+    { id: 'econ',  label: '經濟學',   icon: 'monitoring' },
+    { id: 'notes', label: '個人隨筆', icon: 'history_edu' },
+    { id: 'phil',  label: '哲學',     icon: 'menu_book' },
+    { id: 'lit',   label: '文學',     icon: 'auto_stories' },
+  ],
+  subs: {
+    tcm:   [{value:'classic',label:'經典醫籍'},{value:'case',label:'名醫醫案'},{value:'herb',label:'本草考證'},{value:'acu',label:'針灸經絡'},{value:'formula',label:'方劑學'}],
+    psych: [{value:'cognitive',label:'認知心理學'},{value:'behavioural',label:'行為心理學'},{value:'developmental',label:'發展心理學'},{value:'clinical',label:'臨床心理學'}],
+    econ:  [{value:'macro',label:'宏觀經濟學'},{value:'micro',label:'微觀經濟學'},{value:'finance',label:'金融理論'},{value:'history',label:'經濟思想史'}],
+    phil:  [{value:'classical',label:'先秦諸子'},{value:'western',label:'西方哲學'},{value:'ethics',label:'倫理學'}],
+    lit:   [{value:'classical',label:'古典文學'},{value:'modern',label:'現代文學'},{value:'criticism',label:'文學評論'}],
+    notes: [{value:'reflection',label:'個人感悟'},{value:'reading',label:'讀書筆記'},{value:'idea',label:'靈感火花'}],
+  },
 };
+const CUSTOM_CATS_KEY = 'mozhai_custom_cats';
+let _catsCache = null;
 
-// Subcategory definitions keyed by root category
-const SUBCATEGORIES = {
-  tcm:   [
-    { value: 'classic', label: '經典醫籍' },
-    { value: 'case',    label: '名醫醫案' },
-    { value: 'herb',    label: '本草考證' },
-    { value: 'acu',    label: '針灸經絡' },
-    { value: 'formula', label: '方劑學' },
-  ],
-  psych: [
-    { value: 'cognitive',    label: '認知心理學' },
-    { value: 'behavioural',  label: '行為心理學' },
-    { value: 'developmental',label: '發展心理學' },
-    { value: 'clinical',     label: '臨床心理學' },
-  ],
-  econ:  [
-    { value: 'macro',  label: '宏觀經濟學' },
-    { value: 'micro',  label: '微觀經濟學' },
-    { value: 'finance',label: '金融理論' },
-    { value: 'history',label: '經濟思想史' },
-  ],
-  phil:  [
-    { value: 'classical', label: '先秦諸子' },
-    { value: 'western',   label: '西方哲學' },
-    { value: 'ethics',    label: '倫理學' },
-  ],
-  lit:   [
-    { value: 'classical', label: '古典文學' },
-    { value: 'modern',    label: '現代文學' },
-    { value: 'criticism', label: '文學評論' },
-  ],
-  notes: [
-    { value: 'reflection', label: '個人感悟' },
-    { value: 'reading',    label: '讀書筆記' },
-    { value: 'idea',       label: '靈感火花' },
-  ],
-};
+function getCats() {
+  if (!_catsCache) {
+    const saved = load(CUSTOM_CATS_KEY, null);
+    _catsCache = saved ? saved : JSON.parse(JSON.stringify(_DEFAULT_CATS));
+  }
+  return _catsCache;
+}
+
+function saveCats(c) {
+  _catsCache = c;
+  store(CUSTOM_CATS_KEY, c);
+}
+
+function categoryLabel(id) {
+  return (getCats().roots.find(r => r.id === id) || {}).label || id;
+}
+
+/* ─────────────────────────────────────────
+   Search index (pre-built at startup)
+───────────────────────────────────────── */
+let _searchIndex = [];
 
 function store(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 function load(key, def)  { try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; } }
-
-function categoryLabel(id) {
-  return CATEGORY_LABELS[id] || id;
-}
 
 function showToast(msg, ms = 2200) {
   let t = document.getElementById('toast');
@@ -172,14 +166,54 @@ function initDarkMode() {
 }
 
 /* ─────────────────────────────────────────
+   Search index — built at page load
+───────────────────────────────────────── */
+async function buildSearchIndex() {
+  try {
+    const [recData, hexData] = await Promise.all([
+      getRecordsData().catch(() => ({ records: [] })),
+      getHexagramData().catch(() => ({ hexagrams: [] })),
+    ]);
+
+    const recItems = recData.records.map(r => ({
+      badge:      categoryLabel(r.category),
+      badgeColor: '#5e5e5e',
+      title:      r.title,
+      sub:        `${r.date} · ${categoryLabel(r.category)}`,
+      snippet:    r.excerpt || (r.content || '').slice(0, 100),
+      url:        `article.html?id=${r.id}`,
+      text:       [r.title, r.excerpt, r.content, categoryLabel(r.category), ...(r.tags || [])].join(' ').toLowerCase(),
+    }));
+
+    const hexItems = hexData.hexagrams.map(h => {
+      const yaoText = (h.yao || []).map(y => `${y.name || ''} ${y.text || ''} ${y.translation || ''}`).join(' ');
+      return {
+        badge:      '卦象',
+        badgeColor: '#390002',
+        title:      h.name,
+        sub:        `第 ${String(h.id).padStart(2, '0')} 卦 · ${h.core || ''}`,
+        snippet:    h.desc || h.judgment || '',
+        url:        `hexagram-detail.html?id=${h.id}`,
+        text:       [h.name, h.core, h.judgment, h.desc, h.detail, yaoText].join(' ').toLowerCase(),
+      };
+    });
+
+    _searchIndex = [...recItems, ...hexItems];
+  } catch (e) {
+    console.warn('Search index build failed:', e);
+    _searchIndex = [];
+  }
+}
+
+/* ─────────────────────────────────────────
    Search overlay
 ───────────────────────────────────────── */
 function initSearch() {
   const overlay = document.getElementById('search-overlay');
   if (!overlay) return;
 
-  const input    = overlay.querySelector('input[type="search"]');
-  const results  = document.getElementById('search-results');
+  const input   = overlay.querySelector('input[type="search"]');
+  const results = document.getElementById('search-results');
 
   // open
   document.querySelectorAll('[data-open-search]').forEach(btn => {
@@ -190,79 +224,39 @@ function initSearch() {
   });
 
   // close
-  overlay.querySelectorAll('[data-close-search]').forEach(btn =>
-    btn.addEventListener('click', closeSearch)
-  );
+  function closeSearch() {
+    overlay.classList.remove('active');
+    if (input)   input.value = '';
+    if (results) results.innerHTML = '';
+  }
+  overlay.querySelectorAll('[data-close-search]').forEach(btn => btn.addEventListener('click', closeSearch));
   overlay.addEventListener('click', e => { if (e.target === overlay) closeSearch(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
 
-  function closeSearch() {
-    overlay.classList.remove('active');
-    if (input) input.value = '';
-    if (results) results.innerHTML = '';
-  }
-
-  // live search against records + hexagrams
   if (!input) return;
-  input.addEventListener('input', debounce(async () => {
+
+  input.addEventListener('input', debounce(() => {
     const q = input.value.trim().toLowerCase();
     if (!q) { results.innerHTML = ''; return; }
 
-    results.innerHTML = `<div style="color:#747878;font-size:13px;text-align:center;padding:16px">搜尋中…</div>`;
-
-    let recordsData, hexData;
-    try {
-      [recordsData, hexData] = await Promise.all([getRecordsData(), getHexagramData()]);
-    } catch {
-      results.innerHTML = `<div style="color:#ba1a1a;font-size:14px;text-align:center;padding:24px">搜尋失敗，請確認資料文件存在</div>`;
+    if (!_searchIndex.length) {
+      results.innerHTML = `<div style="color:#747878;font-size:14px;text-align:center;padding:24px">索引建立中，請稍候再試…</div>`;
+      buildSearchIndex().then(() => { if (input.value.trim()) input.dispatchEvent(new Event('input')); });
       return;
     }
 
-    // ── Search records ──
-    const recordHits = recordsData.records.filter(r => {
-      const fields = [
-        r.title, r.excerpt, r.content,
-        categoryLabel(r.category),
-        ...(r.tags || []),
-      ].map(s => (s || '').toLowerCase());
-      return fields.some(f => f.includes(q));
-    }).map(r => ({
-      type: 'record',
-      badge: categoryLabel(r.category),
-      title: r.title,
-      sub: r.date,
-      snippet: r.excerpt || r.content?.slice(0, 80) || '',
-      url: `article.html?id=${r.id}`,
-    }));
-
-    // ── Search hexagrams ──
-    const hexHits = hexData.hexagrams.filter(h => {
-      const yaoText = (h.yao || []).map(y => `${y.name} ${y.text} ${y.translation}`).join(' ');
-      const fields = [
-        h.name, h.core, h.judgment, h.desc, h.detail, yaoText,
-      ].map(s => (s || '').toLowerCase());
-      return fields.some(f => f.includes(q));
-    }).map(h => ({
-      type: 'hexagram',
-      badge: '卦象',
-      title: h.name,
-      sub: `第 ${String(h.id).padStart(2, '0')} 卦 · ${h.core}`,
-      snippet: h.desc || h.judgment || '',
-      url: `hexagram-detail.html?id=${h.id}`,
-    }));
-
-    const hits = [...recordHits, ...hexHits];
+    const hits = _searchIndex.filter(item => item.text.includes(q));
 
     if (!hits.length) {
-      results.innerHTML = `<div style="color:#747878;font-size:14px;text-align:center;padding:24px">未找到「${q}」相關記錄</div>`;
+      results.innerHTML = `<div style="color:#747878;font-size:14px;text-align:center;padding:24px">未找到「${q}」相關內容</div>`;
       return;
     }
 
-    results.innerHTML = hits.map(h => `
-      <div class="search-result-item" data-url="${h.url}" style="cursor:pointer">
+    results.innerHTML = hits.slice(0, 20).map(h => `
+      <div class="search-result-item" data-url="${h.url}">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          <span style="font-size:11px;letter-spacing:.1em;color:#fff;background:${h.type==='hexagram'?'#390002':'#5e5e5e'};padding:2px 7px;border-radius:3px">${h.badge}</span>
-          <span style="font-size:12px;letter-spacing:.08em;color:#747878">${h.sub}</span>
+          <span style="font-size:11px;color:#fff;background:${h.badgeColor};padding:2px 7px;border-radius:3px;letter-spacing:.05em">${h.badge}</span>
+          <span style="font-size:12px;color:#747878;letter-spacing:.05em">${h.sub}</span>
         </div>
         <div style="font-family:'Noto Serif TC',serif;font-size:18px;color:#171818;margin-bottom:4px">${highlight(h.title, q)}</div>
         <div style="font-size:14px;color:#444748;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${highlight(h.snippet, q)}</div>
@@ -274,7 +268,7 @@ function initSearch() {
         closeSearch();
       });
     });
-  }, 250));
+  }, 180));
 }
 
 function highlight(text, q) {
@@ -354,8 +348,14 @@ function initCategorySelect() {
   const subSel  = document.getElementById('select-sub');
   if (!rootSel || !subSel) return;
 
+  function populateRoots(selectedVal) {
+    const cats = getCats();
+    rootSel.innerHTML = `<option value="" disabled ${selectedVal ? '' : 'selected'}>請選擇領域...</option>` +
+      cats.roots.map(r => `<option value="${r.id}" ${r.id === selectedVal ? 'selected' : ''}>${r.label}</option>`).join('');
+  }
+
   function updateSubs(rootVal) {
-    const subs = SUBCATEGORIES[rootVal] || [];
+    const subs = getCats().subs[rootVal] || [];
     subSel.innerHTML = subs.length
       ? `<option value="" disabled selected>請選擇子目錄...</option>` +
         subs.map(s => `<option value="${s.value}">${s.label}</option>`).join('')
@@ -363,10 +363,9 @@ function initCategorySelect() {
     subSel.disabled = subs.length === 0;
   }
 
-  // Restore from draft if present
   const saved = load(STORAGE.drafts, null);
+  populateRoots(saved?.category || '');
   if (saved?.category) {
-    rootSel.value = saved.category;
     updateSubs(saved.category);
     if (saved.subcategory) subSel.value = saved.subcategory;
   } else {
@@ -374,9 +373,10 @@ function initCategorySelect() {
     subSel.innerHTML = `<option value="" disabled selected>請先選擇根目錄...</option>`;
   }
 
-  rootSel.addEventListener('change', () => {
-    updateSubs(rootSel.value);
-  });
+  rootSel.addEventListener('change', () => updateSubs(rootSel.value));
+
+  // Expose refresh for category manager
+  rootSel._refreshOptions = (val) => populateRoots(val || rootSel.value);
 }
 
 /* ─────────────────────────────────────────
@@ -679,8 +679,7 @@ async function initCollection() {
 
   const [featured, ...rest] = cats;
 
-  // Build featured card subcategory list from SUBCATEGORIES definition
-  const featuredSubs = SUBCATEGORIES[featured.id] || [];
+  const featuredSubs = getCats().subs[featured.id] || [];
 
   grid.innerHTML = `
     <!-- Featured category -->
@@ -988,6 +987,184 @@ async function initEditHexagram() {
 }
 
 /* ─────────────────────────────────────────
+   Category Manager (add.html)
+   Modal UI to add/remove roots and subs.
+───────────────────────────────────────── */
+function initCategoryManager() {
+  const btn = document.getElementById('btn-manage-cats');
+  if (!btn) return;
+
+  const modal = document.createElement('div');
+  modal.id = 'cat-manager-modal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:#fafaf3;border-radius:16px;width:100%;max-width:520px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.15)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #e3e3dc">
+        <span style="font-family:'Newsreader',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#747878">管理分類</span>
+        <button id="cat-modal-close" style="color:#747878;background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;line-height:1">
+          <span class="material-symbols-outlined" style="font-size:20px">close</span>
+        </button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:20px 24px">
+        <p style="font-family:'Newsreader',serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#747878;margin-bottom:8px">根目錄（點擊查看子目錄）</p>
+        <div id="cat-roots-list" style="margin-bottom:16px"></div>
+        <div style="display:flex;gap:8px;margin-bottom:28px;align-items:flex-end">
+          <input id="cat-new-root-label" type="text" placeholder="根目錄名稱" style="flex:1;border:none;border-bottom:1px solid #c4c7c7;background:transparent;padding:6px 0;font-size:14px;font-family:'Noto Serif TC',serif;color:#1b1c18;outline:none"/>
+          <input id="cat-new-root-id" type="text" placeholder="ID (英文小寫)" style="width:110px;border:none;border-bottom:1px solid #c4c7c7;background:transparent;padding:6px 0;font-size:14px;font-family:monospace;color:#1b1c18;outline:none"/>
+          <button id="cat-add-root" style="padding:6px 14px;background:#1b1c18;color:#fafaf3;border:none;border-radius:6px;font-size:12px;letter-spacing:.08em;cursor:pointer;white-space:nowrap">新增</button>
+        </div>
+        <div id="cat-sub-panel" style="display:none;border-top:1px solid #e3e3dc;padding-top:20px">
+          <p style="font-family:'Newsreader',serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#747878;margin-bottom:8px">
+            子目錄：<span id="cat-sub-panel-title" style="color:#1b1c18;font-style:italic"></span>
+          </p>
+          <div id="cat-subs-list" style="margin-bottom:12px"></div>
+          <div style="display:flex;gap:8px;align-items:flex-end">
+            <input id="cat-new-sub-label" type="text" placeholder="子目錄名稱" style="flex:1;border:none;border-bottom:1px solid #c4c7c7;background:transparent;padding:6px 0;font-size:14px;font-family:'Noto Serif TC',serif;color:#1b1c18;outline:none"/>
+            <input id="cat-new-sub-value" type="text" placeholder="value (英文)" style="width:110px;border:none;border-bottom:1px solid #c4c7c7;background:transparent;padding:6px 0;font-size:14px;font-family:monospace;color:#1b1c18;outline:none"/>
+            <button id="cat-add-sub" style="padding:6px 14px;background:#1b1c18;color:#fafaf3;border:none;border-radius:6px;font-size:12px;letter-spacing:.08em;cursor:pointer;white-space:nowrap">新增</button>
+          </div>
+        </div>
+      </div>
+      <div style="padding:16px 24px;border-top:1px solid #e3e3dc;display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <button id="cat-reset-btn" style="padding:8px 16px;background:transparent;color:#ba1a1a;border:1px solid #ba1a1a;border-radius:8px;font-size:12px;letter-spacing:.08em;cursor:pointer">還原預設</button>
+        <button id="cat-save-btn" style="padding:8px 20px;background:#1b1c18;color:#fafaf3;border:none;border-radius:8px;font-size:13px;letter-spacing:.08em;cursor:pointer">儲存並套用</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  let activeCatId = null;
+
+  function renderRoots() {
+    const cats = getCats();
+    const list = document.getElementById('cat-roots-list');
+    if (!cats.roots.length) {
+      list.innerHTML = `<p style="color:#a0a0a0;font-size:13px;padding:8px 0">尚無根目錄</p>`;
+      return;
+    }
+    list.innerHTML = cats.roots.map(r => `
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid #f0f0e8;cursor:pointer" data-root-row="${r.id}">
+        <span style="flex:1;font-family:'Noto Serif TC',serif;font-size:15px;color:${activeCatId === r.id ? '#92030f' : '#1b1c18'};font-weight:${activeCatId === r.id ? '600' : '400'}">${r.label}</span>
+        <span style="font-family:monospace;font-size:11px;color:#c4c7c7">${r.id}</span>
+        <button data-del-root="${r.id}" style="color:#c4c7c7;background:none;border:none;cursor:pointer;padding:4px;line-height:1" title="刪除此根目錄">
+          <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+        </button>
+      </div>`).join('');
+
+    list.querySelectorAll('[data-root-row]').forEach(row => {
+      row.addEventListener('click', e => {
+        if (e.target.closest('[data-del-root]')) return;
+        activeCatId = row.dataset.rootRow;
+        renderRoots();
+        renderSubs(activeCatId);
+      });
+    });
+
+    list.querySelectorAll('[data-del-root]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const rid = btn.dataset.delRoot;
+        const cats = getCats();
+        cats.roots = cats.roots.filter(r => r.id !== rid);
+        delete cats.subs[rid];
+        saveCats(cats);
+        if (activeCatId === rid) {
+          activeCatId = null;
+          document.getElementById('cat-sub-panel').style.display = 'none';
+        }
+        renderRoots();
+      });
+    });
+  }
+
+  function renderSubs(rootId) {
+    const panel   = document.getElementById('cat-sub-panel');
+    const titleEl = document.getElementById('cat-sub-panel-title');
+    const list    = document.getElementById('cat-subs-list');
+    const root    = getCats().roots.find(r => r.id === rootId);
+    if (!root) { panel.style.display = 'none'; return; }
+    titleEl.textContent = root.label;
+    panel.style.display = 'block';
+    const subs = getCats().subs[rootId] || [];
+    list.innerHTML = subs.length
+      ? subs.map(s => `
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #f0f0e8">
+            <span style="flex:1;font-size:14px;color:#1b1c18">${s.label}</span>
+            <span style="font-family:monospace;font-size:11px;color:#c4c7c7">${s.value}</span>
+            <button data-del-sub="${s.value}" style="color:#c4c7c7;background:none;border:none;cursor:pointer;padding:4px;line-height:1">
+              <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+            </button>
+          </div>`).join('')
+      : `<p style="color:#a0a0a0;font-size:13px;padding:8px 0">尚無子目錄</p>`;
+
+    list.querySelectorAll('[data-del-sub]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sv = btn.dataset.delSub;
+        const cats = getCats();
+        cats.subs[rootId] = (cats.subs[rootId] || []).filter(s => s.value !== sv);
+        saveCats(cats);
+        renderSubs(rootId);
+      });
+    });
+  }
+
+  btn.addEventListener('click', () => {
+    activeCatId = null;
+    renderRoots();
+    document.getElementById('cat-sub-panel').style.display = 'none';
+    modal.style.display = 'flex';
+  });
+
+  document.getElementById('cat-modal-close').addEventListener('click', () => { modal.style.display = 'none'; });
+  modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+
+  document.getElementById('cat-add-root').addEventListener('click', () => {
+    const label = document.getElementById('cat-new-root-label').value.trim();
+    const id    = document.getElementById('cat-new-root-id').value.trim().toLowerCase().replace(/\s+/g, '_');
+    if (!label || !id) { showToast('請填寫名稱與 ID'); return; }
+    const cats = getCats();
+    if (cats.roots.find(r => r.id === id)) { showToast('此 ID 已存在'); return; }
+    cats.roots.push({ id, label, icon: 'folder' });
+    cats.subs[id] = [];
+    saveCats(cats);
+    document.getElementById('cat-new-root-label').value = '';
+    document.getElementById('cat-new-root-id').value    = '';
+    renderRoots();
+  });
+
+  document.getElementById('cat-add-sub').addEventListener('click', () => {
+    if (!activeCatId) { showToast('請先點選左側根目錄'); return; }
+    const label = document.getElementById('cat-new-sub-label').value.trim();
+    const value = document.getElementById('cat-new-sub-value').value.trim().toLowerCase().replace(/\s+/g, '_');
+    if (!label || !value) { showToast('請填寫名稱與 value'); return; }
+    const cats = getCats();
+    const subs  = cats.subs[activeCatId] = cats.subs[activeCatId] || [];
+    if (subs.find(s => s.value === value)) { showToast('此子目錄已存在'); return; }
+    subs.push({ value, label });
+    saveCats(cats);
+    document.getElementById('cat-new-sub-label').value = '';
+    document.getElementById('cat-new-sub-value').value = '';
+    renderSubs(activeCatId);
+  });
+
+  document.getElementById('cat-reset-btn').addEventListener('click', () => {
+    if (!confirm('確定還原為預設分類？此操作不可撤銷。')) return;
+    _catsCache = null;
+    localStorage.removeItem(CUSTOM_CATS_KEY);
+    activeCatId = null;
+    renderRoots();
+    document.getElementById('cat-sub-panel').style.display = 'none';
+    showToast('已還原預設分類');
+  });
+
+  document.getElementById('cat-save-btn').addEventListener('click', () => {
+    modal.style.display = 'none';
+    const rootSel = document.getElementById('select-root');
+    if (rootSel?._refreshOptions) rootSel._refreshOptions();
+    showToast('✓ 分類已更新');
+  });
+}
+
+/* ─────────────────────────────────────────
    Nav — highlight active page link
 ───────────────────────────────────────── */
 function initNav() {
@@ -1015,10 +1192,10 @@ function debounce(fn, ms) {
 document.addEventListener('DOMContentLoaded', () => {
   initDarkMode();
   initNav();
-  initSearch();
   initBookmarks();
   initTagInput();
   initCategorySelect();
+  initCategoryManager();
   initForm();
   initHexagrams();
   initHexagramDetail();
@@ -1026,4 +1203,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCollection();
   initHome();
   initArticle();
+  initSearch();
+  buildSearchIndex();
 });

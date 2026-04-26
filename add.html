@@ -51,12 +51,6 @@
         <label for="select-root" class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">根目錄 Root Category</label>
         <select id="select-root" name="category" class="shui-mo-input font-body-md text-body-md text-primary w-full cursor-pointer">
           <option disabled selected value="">請選擇領域...</option>
-          <option value="tcm">中醫學</option>
-          <option value="psych">心理學</option>
-          <option value="econ">經濟學</option>
-          <option value="phil">哲學</option>
-          <option value="lit">文學</option>
-          <option value="notes">個人隨筆</option>
         </select>
       </div>
       <div class="flex flex-col gap-2 relative group ink-bleed-focus p-4 rounded-xl">
@@ -65,6 +59,15 @@
           <option disabled selected value="">請先選擇根目錄...</option>
         </select>
       </div>
+    </div>
+    <!-- Manage categories -->
+    <div class="flex justify-end -mt-4">
+      <button id="btn-manage-cats" type="button"
+              class="flex items-center gap-1.5 text-secondary hover:text-primary transition-colors"
+              style="font-size:12px;letter-spacing:.08em">
+        <span class="material-symbols-outlined" style="font-size:16px">tune</span>
+        管理分類
+      </button>
     </div>
 
     <!-- Title -->

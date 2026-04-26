@@ -38,8 +38,8 @@
 
   <!-- Page Header -->
   <div class="mb-16 max-w-3xl">
-    <h1 class="font-headline-display text-headline-display text-primary mb-4">撰寫錄入</h1>
-    <p class="font-body-lg text-body-lg text-on-surface-variant">請於此處編纂新文獻，字斟句酌，心靜如水。</p>
+    <h1 id="form-page-title" class="font-headline-display text-headline-display text-primary mb-4">撰寫錄入</h1>
+    <p class="page-subtitle font-body-lg text-body-lg text-on-surface-variant">請於此處編纂新文獻，字斟句酌，心靜如水。</p>
   </div>
 
   <!-- Entry Form -->
@@ -122,16 +122,24 @@
     </div>
 
     <!-- Action Buttons -->
-    <div class="flex flex-col sm:flex-row justify-end items-center gap-4 pt-20 border-t border-outline-variant/20 mt-12">
-      <button id="btn-draft" class="w-full sm:w-auto px-8 py-3 border border-outline text-on-surface font-label-lg text-label-lg hover:bg-surface-container hover:text-primary transition-all duration-300 flex items-center justify-center gap-2" type="button">
-        <span class="material-symbols-outlined text-[18px]">draft</span>
-        存為草稿
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-20 border-t border-outline-variant/20 mt-12">
+      <button id="btn-export-records"
+              class="w-full sm:w-auto px-6 py-3 border border-outline/40 text-secondary font-label-lg text-label-lg hover:bg-surface-container hover:text-primary transition-all duration-300 flex items-center justify-center gap-2"
+              type="button">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+        匯出 JSON
       </button>
-      <button class="w-full sm:w-auto px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] relative overflow-hidden group" type="submit">
-        <span class="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none scale-150"></span>
-        <span class="material-symbols-outlined text-[18px]">send</span>
-        正式發佈
-      </button>
+      <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+        <button id="btn-draft" class="w-full sm:w-auto px-8 py-3 border border-outline text-on-surface font-label-lg text-label-lg hover:bg-surface-container hover:text-primary transition-all duration-300 flex items-center justify-center gap-2" type="button">
+          <span class="material-symbols-outlined text-[18px]">save</span>
+          儲存到本機
+        </button>
+        <button class="w-full sm:w-auto px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(0,0,0,0.1)] relative overflow-hidden group" type="submit">
+          <span class="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none scale-150"></span>
+          <span class="material-symbols-outlined text-[18px]">send</span>
+          正式發佈
+        </button>
+      </div>
     </div>
 
   </form>

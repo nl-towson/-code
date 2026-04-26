@@ -112,6 +112,29 @@ async function getHexagramData() {
   };
 }
 
+/* ─────────────────────────────────────────
+   Record local overrides (localStorage)
+───────────────────────────────────────── */
+const RECORD_OVERRIDES_KEY = 'mozhai_record_overrides';
+
+function getRecordOverrides() { return load(RECORD_OVERRIDES_KEY, {}); }
+
+function saveRecordOverride(r) {
+  const ov = getRecordOverrides();
+  ov[r.id] = r;
+  store(RECORD_OVERRIDES_KEY, ov);
+}
+
+async function getRecordsData() {
+  const data = await fetchJSON('data/records.json');
+  const ov = getRecordOverrides();
+  if (!Object.keys(ov).length) return data;
+  return {
+    ...data,
+    records: data.records.map(r => ov[r.id] ? { ...r, ...ov[r.id] } : r),
+  };
+}
+
 function resolveAppURL(path) {
   // Find the root of the app by walking up from the current page
   // until we find the directory that contains index.html.
@@ -319,35 +342,104 @@ function initCategorySelect() {
 }
 
 /* ─────────────────────────────────────────
-   Draft / publish (add.html)
+   Draft / publish / edit (add.html)
 ───────────────────────────────────────── */
-function initForm() {
+async function initForm() {
   const form     = document.getElementById('entry-form');
   const draftBtn = document.getElementById('btn-draft');
   if (!form) return;
 
-  // Restore draft
-  const saved = load(STORAGE.drafts, null);
-  if (saved) {
-    const titleEl   = form.querySelector('[name="title"]');
-    const contentEl = form.querySelector('[name="content"]');
-    if (titleEl)   titleEl.value   = saved.title   ?? '';
-    if (contentEl) contentEl.value = saved.content ?? '';
+  const editId = new URLSearchParams(location.search).get('id');
+  let editRecord = null;
+
+  // Edit mode: load existing record
+  if (editId) {
+    const h1 = document.getElementById('form-page-title');
+    if (h1) h1.textContent = '編輯文獻';
+    document.title = '編輯文獻 — 墨齋數據';
+    document.querySelector('.page-subtitle')?.remove();
+    try {
+      const data = await getRecordsData();
+      editRecord = data.records.find(r => r.id === editId) || null;
+    } catch { /* ignore */ }
+
+    if (editRecord) {
+      const rootSel = document.getElementById('select-root');
+      const subSel  = document.getElementById('select-sub');
+      const titleEl = form.querySelector('[name="title"]');
+      const contentEl = form.querySelector('[name="content"]');
+
+      if (titleEl)   titleEl.value   = editRecord.title   ?? '';
+      if (contentEl) contentEl.value = editRecord.content ?? '';
+      if (rootSel && editRecord.category) {
+        rootSel.value = editRecord.category;
+        rootSel.dispatchEvent(new Event('change'));
+        setTimeout(() => {
+          if (subSel && editRecord.subcategory) subSel.value = editRecord.subcategory;
+        }, 50);
+      }
+      // Restore tags
+      const tagContainer = document.getElementById('tag-container');
+      const addTagBtn    = document.getElementById('add-tag-btn');
+      if (tagContainer && addTagBtn && editRecord.tags?.length) {
+        tagContainer.querySelectorAll('[data-tag]').forEach(el => el.remove());
+        editRecord.tags.forEach(t => {
+          const chip = document.createElement('span');
+          chip.className = 'tag-chip';
+          chip.dataset.tag = t;
+          chip.innerHTML = `${t}<span class="material-symbols-outlined remove-tag">close</span>`;
+          tagContainer.insertBefore(chip, addTagBtn);
+        });
+      }
+    }
+  } else {
+    // New record: restore draft
+    const saved = load(STORAGE.drafts, null);
+    if (saved) {
+      const titleEl   = form.querySelector('[name="title"]');
+      const contentEl = form.querySelector('[name="content"]');
+      if (titleEl)   titleEl.value   = saved.title   ?? '';
+      if (contentEl) contentEl.value = saved.content ?? '';
+    }
   }
 
   function gatherDraft() {
     return {
+      id:          editId || editRecord?.id || `r${Date.now()}`,
       title:       form.querySelector('[name="title"]')?.value       ?? '',
       content:     form.querySelector('[name="content"]')?.value     ?? '',
       category:    document.getElementById('select-root')?.value     ?? '',
       subcategory: document.getElementById('select-sub')?.value      ?? '',
+      date:        editRecord?.date    ?? new Date().toLocaleDateString('zh-Hant-TW'),
+      dateISO:     editRecord?.dateISO ?? new Date().toISOString().split('T')[0],
       tags: [...form.querySelectorAll('[data-tag]')].map(el => el.dataset.tag),
+      excerpt:     editRecord?.excerpt ?? '',
+      bookmarked:  editRecord?.bookmarked ?? false,
     };
   }
 
   draftBtn?.addEventListener('click', () => {
-    store(STORAGE.drafts, gatherDraft());
-    showToast('草稿已儲存');
+    if (editId) {
+      saveRecordOverride(gatherDraft());
+      showToast('✓ 已儲存到本機');
+    } else {
+      store(STORAGE.drafts, gatherDraft());
+      showToast('草稿已儲存');
+    }
+  });
+
+  // Export JSON button
+  document.getElementById('btn-export-records')?.addEventListener('click', async () => {
+    if (editId) saveRecordOverride(gatherDraft());
+    const base = JSON.parse(JSON.stringify(await fetchJSON('data/records.json')));
+    const ov = getRecordOverrides();
+    base.records = base.records.map(r => ov[r.id] ? { ...r, ...ov[r.id] } : r);
+    const blob = new Blob([JSON.stringify(base, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'records.json'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('✓ 已匯出 records.json');
   });
 
   form.addEventListener('submit', e => {
@@ -357,10 +449,15 @@ function initForm() {
     if (!draft.content.trim()) { showToast('請填寫正文'); return; }
     if (!draft.category)       { showToast('請選擇根目錄'); return; }
 
-    // Simulate publish: clear draft, redirect home
-    localStorage.removeItem(STORAGE.drafts);
-    showToast('已發佈！');
-    setTimeout(() => { window.location.href = resolveAppURL('index.html'); }, 1200);
+    if (editId) {
+      saveRecordOverride(draft);
+      showToast('✓ 已儲存');
+      setTimeout(() => { window.location.href = resolveAppURL(`article.html?id=${editId}`); }, 1000);
+    } else {
+      localStorage.removeItem(STORAGE.drafts);
+      showToast('已發佈！');
+      setTimeout(() => { window.location.href = resolveAppURL('index.html'); }, 1200);
+    }
   });
 
   // Image upload area (drag-and-drop visual only)
@@ -484,6 +581,28 @@ async function initHexagramDetail() {
   document.getElementById('detail-core').textContent = h.core;
   document.getElementById('detail-judgment').textContent = h.judgment;
   document.getElementById('detail-desc').textContent = h.desc ?? '';
+
+  // 詳細說明
+  if (h.detail) {
+    document.getElementById('detail-detail').textContent = h.detail;
+    document.getElementById('detail-detail-section')?.classList.remove('hidden');
+  }
+
+  // 六爻詳解
+  const yaoEl = document.getElementById('detail-yao');
+  if (yaoEl && h.yao?.length) {
+    document.getElementById('detail-yao-divider')?.classList.remove('hidden');
+    document.getElementById('detail-yao-section')?.classList.remove('hidden');
+    yaoEl.innerHTML = h.yao.map((y, i) => `
+      <div class="pl-6 border-l-2 border-secondary/15 py-1">
+        <div class="flex items-baseline gap-3 mb-3">
+          <span class="font-mono text-xs tracking-widest text-secondary">${String(i + 1).padStart(2, '0')}</span>
+          <span class="font-label-lg text-label-lg text-primary" style="font-family:'Noto Serif TC',serif">${y.name ?? ''}</span>
+        </div>
+        <p class="text-lg text-primary mb-3" style="font-family:'Noto Serif TC',serif;line-height:1.9">${y.text ?? ''}</p>
+        <p class="text-body-md text-on-surface-variant" style="line-height:1.9">${y.translation ?? ''}</p>
+      </div>`).join('');
+  }
 
   const symEl = document.getElementById('detail-symbol');
   symEl.innerHTML = h.symbol.split('').map(bit =>
@@ -646,7 +765,7 @@ async function initArticle() {
   }
 
   let data;
-  try { data = await fetchJSON('data/records.json'); }
+  try { data = await getRecordsData(); }
   catch {
     if (titleEl) titleEl.textContent = '載入失敗';
     if (bodyEl)  bodyEl.innerHTML = '<p style="color:#ba1a1a">資料載入失敗，請檢查 data/records.json 是否存在。</p>';
